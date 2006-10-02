@@ -3,12 +3,12 @@
 
 #include "svn_wcprops.h"
 
-#include "ContentField.h"
+#include "ContentFieldSvn.h"
 
-class CContentFieldSvnAuthor : public CContentField
+class CContentFieldSvnAuthor : public CContentFieldSvn
 {
 public:
-	CContentFieldSvnAuthor();
+	CContentFieldSvnAuthor(CSvnFieldLoader& oLoader);
 	virtual ~CContentFieldSvnAuthor();
 	
 	virtual const char* getName() const;

@@ -3,6 +3,8 @@
 
 #include "FieldLoader.h"
 
+struct svn_wc_status2_t;
+
 class CSvnFieldLoader : public CFieldLoader
 {
 public:
@@ -10,6 +12,8 @@ public:
 	virtual ~CSvnFieldLoader();
 
 	virtual CContentField& getFieldByIndex(int iIdx);
+
+	svn_wc_status2_t* getStatusForPath(const char* pchPath, apr_pool_t* pPool);
 
 private:
 	CContentField** m_pFields;

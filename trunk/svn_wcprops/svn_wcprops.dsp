@@ -98,6 +98,10 @@ SOURCE=.\ContentField.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvn.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnAuthor.cpp
 # End Source File
 # Begin Source File
@@ -135,6 +139,10 @@ SOURCE=.\SvnFieldLoader.cpp
 # Begin Source File
 
 SOURCE=.\include\ContentField.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvn.h
 # End Source File
 # Begin Source File
 
