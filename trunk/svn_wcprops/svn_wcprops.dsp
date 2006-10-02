@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SVN_WCPROPS_EXPORTS" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /Zi /O2 /I "svn_wcprops\include" /I "totalcmd\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FR /FD /c
+# ADD CPP /nologo /MT /W3 /GX /Zi /O2 /I "include" /I "..\totalcmd\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FR /FD /c
 # SUBTRACT CPP /YX /Yc /Yu
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "SVN_WCPROPS_EXPORTS" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "svn_wcprops\include" /I "totalcmd\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FR /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "include" /I "..\totalcmd\include" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /FR /FD /GZ /c
 # SUBTRACT CPP /YX /Yc /Yu
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -94,31 +94,31 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;rc;def;odl;idl;bat"
 # Begin Source File
 
-SOURCE=.\svn_wcprops\ContentField.cpp
+SOURCE=.\ContentField.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\ContentInstance.cpp
+SOURCE=.\ContentInstance.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\ContentInstanceString.cpp
+SOURCE=.\ContentInstanceString.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\FieldLoader.cpp
+SOURCE=.\FieldLoader.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\svn_wcprops.cpp
+SOURCE=.\svn_wcprops.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\svn_wcprops.def
+SOURCE=.\svn_wcprops.def
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\SvnFieldLoader.cpp
+SOURCE=.\SvnFieldLoader.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -126,19 +126,19 @@ SOURCE=.\svn_wcprops\SvnFieldLoader.cpp
 # PROP Default_Filter "h;inl"
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\ContentField.h
+SOURCE=.\include\ContentField.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\ContentFieldInstance.h
+SOURCE=.\include\ContentFieldInstance.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\ContentInstance.h
+SOURCE=.\include\ContentInstance.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\ContentInstanceString.h
+SOURCE=.\include\ContentInstanceString.h
 # End Source File
 # Begin Source File
 
@@ -146,19 +146,19 @@ SOURCE=.\totalcmd\include\contentplug.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\FieldLoader.h
+SOURCE=.\include\FieldLoader.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\SmartPtr.h
+SOURCE=.\include\SmartPtr.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\svn_wcprops.h
+SOURCE=.\include\svn_wcprops.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\svn_wcprops\include\SvnFieldLoader.h
+SOURCE=.\include\SvnFieldLoader.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
