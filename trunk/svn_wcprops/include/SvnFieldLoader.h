@@ -11,7 +11,7 @@ public:
 	CSvnFieldLoader();
 	virtual ~CSvnFieldLoader();
 
-	virtual const CContentField& getFieldByIndex(int iIdx);
+	virtual CContentField& getFieldByIndex(int iIdx);
 
 private:
 	TContentFieldImpl<ft_string> m_fieldAuthor;

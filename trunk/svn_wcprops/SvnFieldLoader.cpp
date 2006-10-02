@@ -10,7 +10,7 @@ CSvnFieldLoader::~CSvnFieldLoader()
 {
 }
 
-const CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
+CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
 {
 	switch (iIdx)
 	{

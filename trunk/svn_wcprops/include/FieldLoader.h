@@ -26,7 +26,7 @@ public:
 
 	virtual ~CFieldLoader();
 
-	virtual const CContentField& getFieldByIndex(int iIdx) = 0;
+	virtual CContentField& getFieldByIndex(int iIdx) = 0;
 };
 
 #endif
