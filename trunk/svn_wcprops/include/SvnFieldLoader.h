@@ -3,7 +3,7 @@
 
 #include "svn_wcprops.h"
 #include "FieldLoader.h"
-#include "ContentFieldInstance.h"
+#include "ContentFieldImpl.h"
 
 class CSvnFieldLoader : public CFieldLoader
 {
@@ -15,7 +15,7 @@ public:
 	virtual CContentInstancePtr getInstanceByFile(const CContentField& oRequestedType, const char* pchFile);
 
 private:
-	TContentFieldInstance<ft_string> m_fieldAuthor;
+	TContentFieldImpl<ft_string> m_fieldAuthor;
 
 	CContentInstancePtr instanciateAuthor(const char* pchFile);
 };

@@ -1,6 +1,5 @@
 #include "SvnFieldLoader.h"
 #include "ContentInstanceString.h"
-#include "ContentFieldInstance.h"
 
 CSvnFieldLoader::CSvnFieldLoader() : 
 	m_fieldAuthor("svn-author", *this)

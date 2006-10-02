@@ -130,7 +130,7 @@ SOURCE=.\include\ContentField.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\ContentFieldInstance.h
+SOURCE=.\include\ContentFieldImpl.h
 # End Source File
 # Begin Source File
 

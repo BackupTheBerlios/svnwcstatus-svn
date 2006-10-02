@@ -1,14 +1,14 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTFIELDINSTANCE__
-#define __TW_WDX_SVN_WCPROPS_CONTENTFIELDINSTANCE__
+#ifndef __TW_WDX_SVN_WCPROPS_CONTENTFIELDIMPL__
+#define __TW_WDX_SVN_WCPROPS_CONTENTFIELDIMPL__
 
 #include "ContentField.h"
 
 template <int field_type>
-class TContentFieldInstance : public CContentField
+class TContentFieldImpl : public CContentField
 {
 public:
-	TContentFieldInstance(const char* pchName, CFieldLoader& oParent);
-	virtual ~TContentFieldInstance();
+	TContentFieldImpl(const char* pchName, CFieldLoader& oParent);
+	virtual ~TContentFieldImpl();
 
 	virtual const char* getName() const;
 	virtual int getType() const;
@@ -20,7 +20,7 @@ private:
 };
 
 template <int field_type>
-TContentFieldInstance<field_type>::TContentFieldInstance(const char* pchName, CFieldLoader& oParent) :
+TContentFieldImpl<field_type>::TContentFieldImpl(const char* pchName, CFieldLoader& oParent) :
 	m_oParent(oParent)
 {
 	m_achName = new char[strlen(pchName) + 1];
@@ -28,7 +28,7 @@ TContentFieldInstance<field_type>::TContentFieldInstance(const char* pchName, CF
 }
 
 template <int field_type>
-TContentFieldInstance<field_type>::~TContentFieldInstance()
+TContentFieldImpl<field_type>::~TContentFieldImpl()
 {
 	if (m_achName)
 	{
@@ -38,19 +38,19 @@ TContentFieldInstance<field_type>::~TContentFieldInstance()
 }
 
 template <int field_type>
-int TContentFieldInstance<field_type>::getType() const
+int TContentFieldImpl<field_type>::getType() const
 {
 	return field_type;
 }
 
 template <int field_type>
-const char* TContentFieldInstance<field_type>::getName() const
+const char* TContentFieldImpl<field_type>::getName() const
 {
 	return m_achName;
 }
 
 template <int field_type>
-CContentInstancePtr TContentFieldInstance<field_type>::getInstance(const char* pchFile) const
+CContentInstancePtr TContentFieldImpl<field_type>::getInstance(const char* pchFile) const
 {
 	return m_oParent.getInstanceByFile(*this, pchFile);
 }
