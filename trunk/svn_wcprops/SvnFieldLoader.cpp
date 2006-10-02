@@ -1,12 +1,11 @@
 #include "SvnFieldLoader.h"
-#include "ContentFieldImpl.h"
-#include "ContentInstanceString.h"
+#include "ContentFieldSvnAuthor.h"
 
 CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields(new CContentField*[2]),
 	m_nFieldCount(0)
 {
-	m_pFields[m_nFieldCount++] = new TContentFieldImpl<ft_string>("svn-author", *this);
+	m_pFields[m_nFieldCount++] = new CContentFieldSvnAuthor();
 	m_pFields[m_nFieldCount] = NULL;
 }
 
