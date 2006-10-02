@@ -1,11 +1,26 @@
 #include "svn_wcprops.h"
 #include "SvnFieldLoader.h"
 
+#include <apr_general.h>
+
 CSvnFieldLoader g_oLoader;
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
-    return TRUE;
+	switch (ul_reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+	case DLL_THREAD_ATTACH:
+		return apr_initialize() == APR_SUCCESS ? TRUE : FALSE;
+
+	case DLL_PROCESS_DETACH:
+	case DLL_THREAD_DETACH:
+		apr_terminate();
+		return TRUE;
+
+	default:
+		return TRUE;
+	}
 }
 
 int __stdcall ContentGetSupportedField(int iFieldIdx, char* pchName, char* pchUnits, int iMaxBuf)
