@@ -27,7 +27,6 @@ public:
 	virtual ~CFieldLoader();
 
 	virtual const CContentField& getFieldByIndex(int iIdx) = 0;
-	virtual CContentInstancePtr getInstanceByFile(const CContentField& oRequestedType, const char* pchFile) = 0;
 };
 
 #endif

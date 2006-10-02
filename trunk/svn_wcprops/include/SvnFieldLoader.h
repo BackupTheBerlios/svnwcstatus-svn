@@ -12,12 +12,9 @@ public:
 	virtual ~CSvnFieldLoader();
 
 	virtual const CContentField& getFieldByIndex(int iIdx);
-	virtual CContentInstancePtr getInstanceByFile(const CContentField& oRequestedType, const char* pchFile);
 
 private:
 	TContentFieldImpl<ft_string> m_fieldAuthor;
-
-	CContentInstancePtr instanciateAuthor(const char* pchFile);
 };
 
 #endif

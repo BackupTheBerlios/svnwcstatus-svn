@@ -2,6 +2,7 @@
 #define __TW_WDX_SVN_WCPROPS_CONTENTFIELDIMPL__
 
 #include "ContentField.h"
+#include "ContentInstanceString.h"
 
 template <int field_type>
 class TContentFieldImpl : public CContentField
@@ -52,7 +53,7 @@ const char* TContentFieldImpl<field_type>::getName() const
 template <int field_type>
 CContentInstancePtr TContentFieldImpl<field_type>::getInstance(const char* pchFile) const
 {
-	return m_oParent.getInstanceByFile(*this, pchFile);
+	return new CContentInstanceString(*this, pchFile, pchFile);
 }
 
 #endif
