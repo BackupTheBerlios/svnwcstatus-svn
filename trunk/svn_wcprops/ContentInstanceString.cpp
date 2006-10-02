@@ -2,31 +2,27 @@
 #include "ContentField.h"
 
 CContentInstanceString::CContentInstanceString(const CContentField& oField, const char* pchFile, const char* pchValue) :
-	CContentInstance(oField, pchFile)
+	CContentInstance(oField, pchFile),
+	m_pchValue(pchValue && *pchValue != '\0' ? strdup(pchValue) : NULL)
 {
-	m_achValue = new char[strlen(pchValue) + 1];
-	strcpy(m_achValue, pchValue);
 }
 
 CContentInstanceString::~CContentInstanceString()
 {
-	if (m_achValue)
-	{
-		delete [] m_achValue;
-		m_achValue = NULL;
-	}
+	if (m_pchValue)
+		free(m_pchValue);
 }
 
 int CContentInstanceString::copyValueTo(void** ppBuf, int iMaxBuf) const
 {
-	if (!m_achValue || *m_achValue == '\0')
+	if (!m_pchValue)
 	{
 		return ft_fieldempty;
 	}
 
 	if (iMaxBuf > 0 && ppBuf && *ppBuf)
 	{
-		strncpy((char*)*ppBuf, m_achValue, iMaxBuf);
+		strncpy((char*)*ppBuf, m_pchValue, iMaxBuf);
 		((char*)*ppBuf)[iMaxBuf - 1] = '\0';
 	}
 
