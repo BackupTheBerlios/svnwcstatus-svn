@@ -10,7 +10,8 @@ class CFieldLoader
 public:
 	enum ex_e
 	{
-		exNoSuchFieldIndex
+		exNoSuchFieldIndex,
+		exNoSuchField
 	};
 
 	class Ex

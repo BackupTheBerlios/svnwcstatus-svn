@@ -57,4 +57,9 @@ int __stdcall ContentGetValue(char* pchFile, int iFieldIdx, int iUnitIdx, void* 
 		delete e;
 		return ft_nosuchfield;
 	}
+	catch (CSvnEx* e)
+	{
+		delete e;
+		return ft_nosuchfield;
+	}
 }

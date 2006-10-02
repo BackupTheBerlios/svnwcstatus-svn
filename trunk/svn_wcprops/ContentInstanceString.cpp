@@ -3,26 +3,35 @@
 
 CContentInstanceString::CContentInstanceString(const CContentField& oField, const char* pchFile, const char* pchValue) :
 	CContentInstance(oField, pchFile),
-	m_pchValue(pchValue && *pchValue != '\0' ? strdup(pchValue) : NULL)
+	m_achValue(NULL)
 {
+	if (pchValue && *pchValue != '\0')
+	{
+		const size_t nLen = strlen(pchValue);
+		m_achValue = new char[nLen + 1];
+		strcpy(m_achValue, pchValue);
+		m_achValue[nLen] = '\0';
+	}
 }
 
 CContentInstanceString::~CContentInstanceString()
 {
-	if (m_pchValue)
-		free(m_pchValue);
+	if (m_achValue)
+	{
+		delete [] m_achValue;
+	}
 }
 
 int CContentInstanceString::copyValueTo(void** ppBuf, int iMaxBuf) const
 {
-	if (!m_pchValue)
+	if (!m_achValue || *m_achValue == '\0')
 	{
 		return ft_fieldempty;
 	}
 
 	if (iMaxBuf > 0 && ppBuf && *ppBuf)
 	{
-		strncpy((char*)*ppBuf, m_pchValue, iMaxBuf);
+		strncpy((char*)*ppBuf, m_achValue, iMaxBuf);
 		((char*)*ppBuf)[iMaxBuf - 1] = '\0';
 	}
 

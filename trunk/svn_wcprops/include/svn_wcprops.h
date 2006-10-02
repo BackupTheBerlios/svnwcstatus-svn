@@ -8,7 +8,13 @@
 
 #include "SmartPtr.h"
 
-int __stdcall ContentGetSupportedField(int iFieldIdx, char* pchName, char* pchUnits, int iMaxBuf);
-int __stdcall ContentGetValue(char* pchFile, int iFieldIdx, int iUnitIdx, void* pValue, int iMaxBuf, int iFlags);
+#include "SvnEx.h"
+
+#define SVN_EX(expr)                            \
+{                                               \
+	svn_error_t* svn_err__temp = (expr);        \
+	if (svn_err__temp)                          \
+		throw new CSvnEx(svn_err__temp);        \
+}
 
 #endif

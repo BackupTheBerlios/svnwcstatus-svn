@@ -13,7 +13,7 @@ public:
 	virtual int copyValueTo(void** ppBuf, int iMaxBuf) const;
 
 protected:
-	char* m_pchValue;
+	char* m_achValue;
 };
 
 typedef TSmartPtr<CContentInstanceString> CContentInstanceStringPtr;
