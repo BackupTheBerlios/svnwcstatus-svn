@@ -54,7 +54,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib advapi32.lib ws2_32.lib shell32.lib libdb42.lib libapr.lib libaprutil.lib xml.lib libneon.lib libsvn_subr-1.lib libsvn_delta-1.lib libsvn_diff-1.lib libsvn_fs-1.lib libsvn_fs_base-1.lib libsvn_fs_fs-1.lib libsvn_repos-1.lib libsvn_ra-1.lib libsvn_ra_local-1.lib libsvn_ra_svn-1.lib libsvn_ra_dav-1.lib libsvn_wc-1.lib libsvn_client-1.lib /nologo /dll /machine:I386 /out:"bin/svn_wcprops.wdx" /libpath:"..\subversion\lib\bdb" /libpath:"..\subversion\lib\apr" /libpath:"..\subversion\lib\apr-util" /libpath:"..\subversion\lib\neon" /libpath:"..\subversion\lib"
+# ADD LINK32 kernel32.lib advapi32.lib ws2_32.lib shell32.lib libapr.lib libaprutil.lib xml.lib zlibstat.lib libsvn_subr-1.lib libsvn_delta-1.lib libsvn_diff-1.lib libsvn_fs-1.lib libsvn_fs_fs-1.lib libsvn_repos-1.lib libsvn_ra-1.lib libsvn_ra_local-1.lib libsvn_wc-1.lib libsvn_client-1.lib /nologo /dll /machine:I386 /out:"bin/svn_wcprops.wdx" /libpath:"..\subversion\lib\bdb" /libpath:"..\subversion\lib\apr" /libpath:"..\subversion\lib\apr-util" /libpath:"..\subversion\lib\neon" /libpath:"..\subversion\lib"
 
 !ELSEIF  "$(CFG)" == "svn_wcprops - Win32 Debug"
 
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"bin/svn_wcpropsD.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib advapi32.lib ws2_32.lib shell32.lib libdb42.lib libapr.lib libaprutil.lib xml.lib libneon.lib libsvn_subr-1.lib libsvn_delta-1.lib libsvn_diff-1.lib libsvn_fs-1.lib libsvn_fs_base-1.lib libsvn_fs_fs-1.lib libsvn_repos-1.lib libsvn_ra-1.lib libsvn_ra_local-1.lib libsvn_ra_svn-1.lib libsvn_ra_dav-1.lib libsvn_wc-1.lib libsvn_client-1.lib /nologo /dll /debug /machine:I386 /out:"bin/svn_wcpropsD.wdx" /pdbtype:sept /libpath:"..\subversion\lib\bdb" /libpath:"..\subversion\lib\apr" /libpath:"..\subversion\lib\apr-util" /libpath:"..\subversion\lib\neon" /libpath:"..\subversion\lib"
+# ADD LINK32 kernel32.lib advapi32.lib ws2_32.lib shell32.lib libapr.lib libaprutil.lib xml.lib zlibstat.lib libsvn_subr-1.lib libsvn_delta-1.lib libsvn_diff-1.lib libsvn_fs-1.lib libsvn_fs_fs-1.lib libsvn_repos-1.lib libsvn_ra-1.lib libsvn_ra_local-1.lib libsvn_wc-1.lib libsvn_client-1.lib /nologo /dll /debug /machine:I386 /out:"bin/svn_wcpropsD.wdx" /pdbtype:sept /libpath:"..\subversion\lib\bdb" /libpath:"..\subversion\lib\apr" /libpath:"..\subversion\lib\apr-util" /libpath:"..\subversion\lib\neon" /libpath:"..\subversion\lib"
 
 !ENDIF 
 
@@ -158,7 +158,7 @@ SOURCE=.\include\ContentInstanceString.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\totalcmd\include\contentplug.h
+SOURCE=..\totalcmd\include\contentplug.h
 # End Source File
 # Begin Source File
 

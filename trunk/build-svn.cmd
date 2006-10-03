@@ -39,7 +39,7 @@ if errorlevel 1 (
   goto error
 )
 
-msdev "subversion_msvc.dsw" /MAKE "libsvn_client - Win32 Release"
+msdev "subversion_msvc.dsw" /MAKE "__LIBS__ - Win32 Release"
 if errorlevel 1 (
   set build_errorlevel=%ERRORLEVEL%
   echo Subversion Build failed.

@@ -1,5 +1,3 @@
-// Contents of file contplug.h
-
 #define ft_nomorefields 0
 #define ft_numeric_32 1
 #define ft_numeric_64 2
@@ -47,4 +45,3 @@ void __stdcall ContentSetDefaultParams(ContentDefaultParamStruct* dps);
 
 void __stdcall ContentStopGetValue(char* FileName);
 int __stdcall ContentGetDefaultSortOrder(int FieldIndex);
-
