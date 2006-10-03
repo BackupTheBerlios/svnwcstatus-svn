@@ -3,8 +3,6 @@
 setlocal
 pushd "%~dp0\build"
 
-set build_errorlevel=
-
 call import-conf.cmd "%~dp0"
 if defined build_errorlevel goto error
 
@@ -60,9 +58,8 @@ goto end
 echo An error occurred (%build_errorlevel%). Please check %conf_file%
 echo and tweak your settings.
 echo Your settings follow:
-pause
-echo ###############################################################################
-type "%conf_file%" | more
+echo.
+call print-conf.cmd
 
 :end
 popd
