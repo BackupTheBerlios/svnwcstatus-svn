@@ -74,7 +74,7 @@ svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_poo
 	{
 		SVN_EX(svn_client_create_context(&pClientCtx, pSubpool));
 		SVN_EX(svn_client_status2(NULL, svn_path_dirname(sBaton.pchReqFile, pSubpool),
-			&rev, statusFunc, &sBaton, FALSE, TRUE, FALSE, FALSE, TRUE, pClientCtx, pSubpool));
+			&rev, statusFunc, &sBaton, FALSE, TRUE, FALSE, TRUE, TRUE, pClientCtx, pSubpool));
 	}
 	catch (...)
 	{
