@@ -1,0 +1,39 @@
+@echo off
+
+rem If you change this, you also have to adjust the svn_wcprops.dsp file.
+set lib_dir=%base_dir%subversion
+
+rem If skip_svn is defined, svn operations are always skipped.
+rem set skip_svn=skip
+
+rem ### EXECUTABLES NEEDED FOR BUILD SCRIPTS ###
+set exec_svn=%ProgramFiles%\Subversion\bin\svn.exe
+set exec_msdev_env=%ProgramFiles%\Microsoft Visual Studio\VC98\Bin\VCVARS32.BAT
+
+
+rem ### REPOSITORIES, ADJUST SETTINGS TO LINK AGAINST OTHER VERISONS ###
+set rep_url_asf_base=http://svn.apache.org/repos/asf
+set rep_url_apr_branch=tags/0.9.7
+set rep_url_apr=%rep_url_asf_base%/apr/apr/%rep_url_apr_branch%
+set rep_url_apu=%rep_url_asf_base%/apr/apr-util/%rep_url_apr_branch%
+set rep_url_api=%rep_url_asf_base%/apr/apr-iconv/%rep_url_apr_branch%
+set rep_url_svn=http://svn.collab.net/repos/svn/tags/1.4.0
+set rep_url_neon=http://svn.webdav.org/repos/projects/neon/tags/0.25.5
+
+
+rem ### WORKING COPY PATHS, ADJUST TO FIT YOUR NEEDS ###
+set wc_dir_base=%base_dir%
+set wc_dir_apr_base=%wc_dir_base%
+set wc_dir_apr=%wc_dir_apr_base%apr
+set wc_dir_apu=%wc_dir_apr_base%apr-util
+set wc_dir_api=%wc_dir_apr_base%apr-iconv
+set wc_dir_svn=%wc_dir_base%svn
+set wc_dir_neon=%wc_dir_base%neon
+
+
+rem ### ZLIB HAS TO BE INSTALLED MANUALLY ###
+set zlib_dir=%base_dir%zlib
+
+
+rem ### SUBVERSION CONFIGURATION OPTIONS ###
+set svn_gen_make_opts=-t dsp --release --with-neon="%wc_dir_neon%" --with-apr="%wc_dir_apr%" --with-apr-util="%wc_dir_apu%" --with-apr-iconv="%wc_dir_api%" --with-zlib=%zlib_dir%
