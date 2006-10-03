@@ -11,7 +11,7 @@ public:
 	virtual const char* getName() const = 0;
 	virtual int getType() const = 0;
 
-	virtual CContentInstancePtr getInstance(const char* pchFile) = 0;
+	virtual CContentInstancePtr getInstance(const char* pchPath) = 0;
 };
 
 typedef TSmartPtr<CContentField> CContentFieldPtr;

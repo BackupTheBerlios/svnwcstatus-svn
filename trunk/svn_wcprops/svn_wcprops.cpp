@@ -44,11 +44,11 @@ int __stdcall ContentGetSupportedField(int iFieldIdx, char* pchName, char* pchUn
 	}
 }
 
-int __stdcall ContentGetValue(char* pchFile, int iFieldIdx, int iUnitIdx, void* pValue, int iMaxBuf, int iFlags)
+int __stdcall ContentGetValue(char* pchPath, int iFieldIdx, int iUnitIdx, void* pValue, int iMaxBuf, int iFlags)
 {
 	try
 	{
-		CContentInstancePtr pTheInstance = g_oLoader.getFieldByIndex(iFieldIdx).getInstance(pchFile);
+		CContentInstancePtr pTheInstance = g_oLoader.getFieldByIndex(iFieldIdx).getInstance(pchPath);
 
 		return pTheInstance->copyValueTo(&pValue, iMaxBuf);
 	}

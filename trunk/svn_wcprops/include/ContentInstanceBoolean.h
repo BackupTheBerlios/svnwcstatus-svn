@@ -7,9 +7,9 @@
 class CContentInstanceBoolean : public CContentInstance
 {
 public:
-	CContentInstanceBoolean(const CContentField& oField, const char* pchFile);
-	CContentInstanceBoolean(const CContentField& oField, const char* pchFile, bool bValue);
-	CContentInstanceBoolean(const CContentField& oField, const char* pchFile, bool* pbValue);
+	CContentInstanceBoolean(const CContentField& oField, const char* pchPath);
+	CContentInstanceBoolean(const CContentField& oField, const char* pchPath, bool bValue);
+	CContentInstanceBoolean(const CContentField& oField, const char* pchPath, bool* pbValue);
 	virtual ~CContentInstanceBoolean();
 
 	virtual int copyValueTo(void** ppBuf, int iMaxBuf) const;

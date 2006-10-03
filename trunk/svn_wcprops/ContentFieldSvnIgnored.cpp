@@ -24,7 +24,7 @@ int CContentFieldSvnIgnored::getType() const
 	return ft_boolean;
 }
 
-CContentInstancePtr CContentFieldSvnIgnored::getInstance(const char* pchFile)
+CContentInstancePtr CContentFieldSvnIgnored::getInstance(const char* pchPath)
 {
 	apr_pool_t* pPool = svn_pool_create(NULL);
 
@@ -32,7 +32,7 @@ CContentInstancePtr CContentFieldSvnIgnored::getInstance(const char* pchFile)
 
 	try
 	{
-		pStatus = getParent().getStatusForPath(pchFile, pPool);
+		pStatus = getParent().getStatusForPath(pchPath, pPool);
 	}
 	catch (...)
 	{
@@ -43,7 +43,7 @@ CContentInstancePtr CContentFieldSvnIgnored::getInstance(const char* pchFile)
 	CContentInstancePtr pRes(NULL);
 
 	if (pStatus)
-		Reset(pRes, (CContentInstance*) new CContentInstanceBoolean(*this, pchFile, pStatus->text_status == svn_wc_status_ignored));
+		Reset(pRes, (CContentInstance*) new CContentInstanceBoolean(*this, pchPath, pStatus->text_status == svn_wc_status_ignored));
 
 	svn_pool_destroy(pPool);
 

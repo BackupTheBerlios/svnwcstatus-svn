@@ -14,7 +14,7 @@ public:
 	virtual const char* getName() const;
 	virtual int getType() const;
 
-	virtual CContentInstancePtr getInstance(const char* pchFile);
+	virtual CContentInstancePtr getInstance(const char* pchPath);
 };
 
 #endif

@@ -25,7 +25,7 @@ int CContentFieldSvnAuthor::getType() const
 	return ft_string;
 }
 
-CContentInstancePtr CContentFieldSvnAuthor::getInstance(const char* pchFile)
+CContentInstancePtr CContentFieldSvnAuthor::getInstance(const char* pchPath)
 {
 	apr_pool_t* pPool = svn_pool_create(NULL);
 
@@ -33,7 +33,7 @@ CContentInstancePtr CContentFieldSvnAuthor::getInstance(const char* pchFile)
 
 	try
 	{
-		pStatus = getParent().getStatusForPath(pchFile, pPool);
+		pStatus = getParent().getStatusForPath(pchPath, pPool);
 	}
 	catch (...)
 	{
@@ -44,7 +44,7 @@ CContentInstancePtr CContentFieldSvnAuthor::getInstance(const char* pchFile)
 	CContentInstancePtr pRes(NULL);
 
 	if (pStatus && pStatus->entry)
-		Reset(pRes, (CContentInstance*) new CContentInstanceString(*this, pchFile, pStatus->entry->cmt_author));
+		Reset(pRes, (CContentInstance*) new CContentInstanceString(*this, pchPath, pStatus->entry->cmt_author));
 
 	svn_pool_destroy(pPool);
 

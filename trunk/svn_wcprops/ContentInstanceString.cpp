@@ -1,8 +1,8 @@
 #include "ContentInstanceString.h"
 #include "ContentField.h"
 
-CContentInstanceString::CContentInstanceString(const CContentField& oField, const char* pchFile, const char* pchValue) :
-	CContentInstance(oField, pchFile),
+CContentInstanceString::CContentInstanceString(const CContentField& oField, const char* pchPath, const char* pchValue) :
+	CContentInstance(oField, pchPath),
 	m_achValue(NULL)
 {
 	if (pchValue && *pchValue != '\0')

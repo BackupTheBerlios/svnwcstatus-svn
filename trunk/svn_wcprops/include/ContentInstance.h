@@ -17,7 +17,7 @@ protected:
 	const CContentField& m_oField;
 	char m_achFile[_MAX_PATH];
 
-	CContentInstance(const CContentField& oField, const char* pchFile);
+	CContentInstance(const CContentField& oField, const char* pchPath);
 };
 
 typedef TSmartPtr<CContentInstance> CContentInstancePtr;

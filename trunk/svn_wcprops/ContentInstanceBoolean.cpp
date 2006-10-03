@@ -1,20 +1,20 @@
 #include "ContentInstanceBoolean.h"
 #include "ContentField.h"
 
-CContentInstanceBoolean::CContentInstanceBoolean(const CContentField& oField, const char* pchFile) :
-	CContentInstance(oField, pchFile),
+CContentInstanceBoolean::CContentInstanceBoolean(const CContentField& oField, const char* pchPath) :
+	CContentInstance(oField, pchPath),
 	m_nValue(-1)
 {
 }
 
-CContentInstanceBoolean::CContentInstanceBoolean(const CContentField& oField, const char* pchFile, bool bValue) :
-	CContentInstance(oField, pchFile),
+CContentInstanceBoolean::CContentInstanceBoolean(const CContentField& oField, const char* pchPath, bool bValue) :
+	CContentInstance(oField, pchPath),
 	m_nValue(bValue ? 1 : 0)
 {
 }
 
-CContentInstanceBoolean::CContentInstanceBoolean(const CContentField& oField, const char* pchFile, bool* pbValue) :
-	CContentInstance(oField, pchFile),
+CContentInstanceBoolean::CContentInstanceBoolean(const CContentField& oField, const char* pchPath, bool* pbValue) :
+	CContentInstance(oField, pchPath),
 	m_nValue(pbValue ? (*pbValue ? 1 : 0) : -1)
 {
 }

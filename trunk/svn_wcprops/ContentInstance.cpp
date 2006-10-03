@@ -1,9 +1,9 @@
 #include "ContentInstance.h"
 
-CContentInstance::CContentInstance(const CContentField& oField, const char* pchFile) :
+CContentInstance::CContentInstance(const CContentField& oField, const char* pchPath) :
 	m_oField(oField)
 {
-	strncpy(m_achFile, pchFile, sizeof(m_achFile) - 1);
+	strncpy(m_achFile, pchPath, sizeof(m_achFile) - 1);
 	m_achFile[sizeof(m_achFile) - 1] = '\0';
 }
 

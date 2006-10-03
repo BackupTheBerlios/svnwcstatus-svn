@@ -118,6 +118,10 @@ SOURCE=.\ContentInstanceBoolean.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentInstanceMultiChoice.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentInstanceString.cpp
 # End Source File
 # Begin Source File
@@ -167,6 +171,10 @@ SOURCE=.\include\ContentInstance.h
 # Begin Source File
 
 SOURCE=.\include\ContentInstanceBoolean.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentInstanceMultiChoice.h
 # End Source File
 # Begin Source File
 
