@@ -106,7 +106,15 @@ SOURCE=.\ContentFieldSvnAuthor.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnIgnored.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentInstance.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ContentInstanceBoolean.cpp
 # End Source File
 # Begin Source File
 
@@ -150,7 +158,15 @@ SOURCE=.\include\ContentFieldSvnAuthor.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\ContentFieldSvnIgnored.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\ContentInstance.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentInstanceBoolean.h
 # End Source File
 # Begin Source File
 
