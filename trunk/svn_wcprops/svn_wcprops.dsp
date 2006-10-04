@@ -130,6 +130,14 @@ SOURCE=.\FieldLoader.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\MultiChoiceDef.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MultiChoiceDefSchedule.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\svn_wcprops.cpp
 # End Source File
 # Begin Source File
@@ -187,6 +195,14 @@ SOURCE=..\totalcmd\include\contentplug.h
 # Begin Source File
 
 SOURCE=.\include\FieldLoader.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\MultiChoiceDef.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\MultiChoiceDefSchedule.h
 # End Source File
 # Begin Source File
 

@@ -28,12 +28,8 @@ int __stdcall ContentGetSupportedField(int iFieldIdx, char* pchName, char* pchUn
 	try
 	{
 		const CContentField& oField = g_oLoader.getFieldByIndex(iFieldIdx);
+		oField.fillInDefinition(pchName, pchUnits, iMaxBuf);
 
-		if (iMaxBuf > 0 && pchName)
-		{
-			strncpy(pchName, oField.getName(), iMaxBuf);
-			pchName[iMaxBuf - 1] = '\0';
-		}
 
 		return oField.getType();
 	}
