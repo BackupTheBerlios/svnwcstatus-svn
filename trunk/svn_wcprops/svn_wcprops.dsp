@@ -110,6 +110,10 @@ SOURCE=.\ContentFieldSvnIgnored.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnSchedule.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentInstance.cpp
 # End Source File
 # Begin Source File
@@ -171,6 +175,10 @@ SOURCE=.\include\ContentFieldSvnAuthor.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvnIgnored.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnSchedule.h
 # End Source File
 # Begin Source File
 
