@@ -15,12 +15,18 @@ void CContentField::fillInDefinition(char* pchName, char* pchUnits, int iMaxBuf)
 		pchName[iMaxBuf - 1] = '\0';
 	}
 
-	if (hasMultiChoiceDef() && pchUnits)
+	if (pchUnits)
 	{
-		getUnits(pchUnits, iMaxBuf);
+		if (hasMultiChoiceDef())
+		{
+			getUnits(pchUnits, iMaxBuf);
+		}
+		else
+		{
+			*pchUnits = '\0';
+		}
 	}
 }
-
 
 bool CContentField::hasMultiChoiceDef() const
 {
