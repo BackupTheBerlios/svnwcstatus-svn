@@ -3,19 +3,38 @@
 
 #include <apr_general.h>
 
-CSvnFieldLoader g_oLoader;
+static CSvnFieldLoader* g_pLoader;
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-	case DLL_THREAD_ATTACH:
-		return apr_initialize() == APR_SUCCESS ? TRUE : FALSE;
+		if (apr_initialize() != APR_SUCCESS)
+		{
+			return FALSE;
+		}
+
+		try
+		{
+			g_pLoader = new CSvnFieldLoader();
+		}
+		catch (...)
+		{
+			apr_terminate();
+			return FALSE;
+		}
+
+		return TRUE;
 
 	case DLL_PROCESS_DETACH:
-	case DLL_THREAD_DETACH:
+		delete g_pLoader;
 		apr_terminate();
+		return TRUE;
+
+	// currently unused
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
 		return TRUE;
 
 	default:
@@ -27,7 +46,7 @@ int __stdcall ContentGetSupportedField(int iFieldIdx, char* pchName, char* pchUn
 {
 	try
 	{
-		const CContentField& oField = g_oLoader.getFieldByIndex(iFieldIdx);
+		const CContentField& oField = g_pLoader->getFieldByIndex(iFieldIdx);
 		oField.fillInDefinition(pchName, pchUnits, iMaxBuf);
 
 
@@ -44,7 +63,7 @@ int __stdcall ContentGetValue(char* pchPath, int iFieldIdx, int iUnitIdx, void* 
 {
 	try
 	{
-		CContentInstancePtr pTheInstance = g_oLoader.getFieldByIndex(iFieldIdx).getInstance(pchPath);
+		CContentInstancePtr pTheInstance = g_pLoader->getFieldByIndex(iFieldIdx).getInstance(pchPath);
 
 		return pTheInstance->copyValueTo(&pValue, iMaxBuf);
 	}
