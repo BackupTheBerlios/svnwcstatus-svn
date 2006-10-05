@@ -9,6 +9,8 @@ struct svn_client_ctx_t;
 class CSvnFieldLoader : public CFieldLoader
 {
 public:
+	class CEntryCache;
+
 	CSvnFieldLoader();
 	virtual ~CSvnFieldLoader();
 
@@ -21,6 +23,8 @@ private:
 	size_t m_nFieldCount;
 	apr_pool_t* m_pPool;
 	svn_client_ctx_t* m_pClientCtx;
+
+	CEntryCache* m_pLastEntry;
 };
 
 #endif
