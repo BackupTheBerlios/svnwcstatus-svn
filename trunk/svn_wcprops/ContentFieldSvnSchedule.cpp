@@ -37,23 +37,8 @@ const CMultiChoiceDef* CContentFieldSvnSchedule::getMultiChoiceDef() const
 
 CContentInstancePtr CContentFieldSvnSchedule::getInstance(const char* pchPath)
 {
-	apr_pool_t* pPool = svn_pool_create(NULL);
+	CSvnPool oPool;
+	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);
 
-	svn_wc_status2_t* pStatus = NULL;
-
-	try
-	{
-		pStatus = getParent().getStatusForPath(pchPath, pPool);
-	}
-	catch (...)
-	{
-		svn_pool_destroy(pPool);
-		throw;
-	}
-
-	CContentInstancePtr pRes(new CContentInstanceMultiChoice(*m_pDef, pchPath, pStatus && pStatus->entry ? pStatus->entry->schedule + 1 : CMultiChoiceDef::eMultiChoiceEmpty));
-
-	svn_pool_destroy(pPool);
-
-	return pRes;
+	return new CContentInstanceMultiChoice(*m_pDef, pchPath, pStatus && pStatus->entry ? pStatus->entry->schedule + 1 : CMultiChoiceDef::eMultiChoiceEmpty);
 }

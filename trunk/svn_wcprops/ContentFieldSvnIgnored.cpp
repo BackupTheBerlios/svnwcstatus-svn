@@ -2,7 +2,8 @@
 #include "SvnFieldLoader.h"
 #include "ContentInstanceBoolean.h"
 
-#include "svn_pools.h"
+#include "SvnPool.h"
+
 #include "svn_wc.h"
 
 CContentFieldSvnIgnored::CContentFieldSvnIgnored(CSvnFieldLoader& oLoader) :
@@ -26,29 +27,13 @@ int CContentFieldSvnIgnored::getType() const
 
 CContentInstancePtr CContentFieldSvnIgnored::getInstance(const char* pchPath)
 {
-	apr_pool_t* pPool = svn_pool_create(NULL);
+	CSvnPool oPool;
+	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);
 
-	svn_wc_status2_t* pStatus = NULL;
-
-	try
+	if (!pStatus)
 	{
-		pStatus = getParent().getStatusForPath(pchPath, pPool);
-	}
-	catch (...)
-	{
-		svn_pool_destroy(pPool);
-		throw;
-	}
-
-	CContentInstancePtr pRes(NULL);
-
-	if (pStatus)
-		Reset(pRes, (CContentInstance*) new CContentInstanceBoolean(*this, pchPath, pStatus->text_status == svn_wc_status_ignored));
-
-	svn_pool_destroy(pPool);
-
-	if (!pRes)
 		throw new CFieldLoader::Ex(CFieldLoader::exNoSuchField);
+	}
 
-	return pRes;
+	return new CContentInstanceBoolean(*this, pchPath, pStatus->text_status == svn_wc_status_ignored);
 }

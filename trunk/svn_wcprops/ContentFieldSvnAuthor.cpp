@@ -2,9 +2,9 @@
 #include "SvnFieldLoader.h"
 #include "ContentInstanceString.h"
 
-#include "svn_pools.h"
-#include "svn_path.h"
-#include "svn_client.h"
+#include "SvnPool.h"
+
+#include "svn_wc.h"
 
 CContentFieldSvnAuthor::CContentFieldSvnAuthor(CSvnFieldLoader& oLoader) :
 	CContentFieldSvn(oLoader)
@@ -27,29 +27,13 @@ int CContentFieldSvnAuthor::getType() const
 
 CContentInstancePtr CContentFieldSvnAuthor::getInstance(const char* pchPath)
 {
-	apr_pool_t* pPool = svn_pool_create(NULL);
+	CSvnPool oPool;
+	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);
 
-	svn_wc_status2_t* pStatus = NULL;
-
-	try
+	if (!pStatus || !pStatus->entry)
 	{
-		pStatus = getParent().getStatusForPath(pchPath, pPool);
-	}
-	catch (...)
-	{
-		svn_pool_destroy(pPool);
-		throw;
-	}
-
-	CContentInstancePtr pRes(NULL);
-
-	if (pStatus && pStatus->entry)
-		Reset(pRes, (CContentInstance*) new CContentInstanceString(*this, pchPath, pStatus->entry->cmt_author));
-
-	svn_pool_destroy(pPool);
-
-	if (!pRes)
 		throw new CFieldLoader::Ex(CFieldLoader::exNoSuchField);
+	}
 
-	return pRes;
+	return new CContentInstanceString(*this, pchPath, pStatus->entry->cmt_author);
 }
