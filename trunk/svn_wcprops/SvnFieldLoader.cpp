@@ -16,7 +16,7 @@ struct SvnFieldLoaderStatusBaton
 
 static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pStatus)
 {
-	SvnFieldLoaderStatusBaton* pData = (SvnFieldLoaderStatusBaton*) pBaton;
+	SvnFieldLoaderStatusBaton* pData = static_cast<SvnFieldLoaderStatusBaton*>(pBaton);
 
 	if (!pData->pStatus)
 	{
@@ -31,12 +31,15 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 
 CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields(new CContentField*[4]),
-	m_nFieldCount(0)
+	m_nFieldCount(0),
+	m_pPool(svn_pool_create(NULL))
 {
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnAuthor(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnIgnored(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnSchedule(*this);
 	m_pFields[m_nFieldCount] = NULL;
+
+	SVN_EX(svn_client_create_context(&m_pClientCtx, m_pPool));
 }
 
 CSvnFieldLoader::~CSvnFieldLoader()
@@ -47,6 +50,8 @@ CSvnFieldLoader::~CSvnFieldLoader()
 	}
 
 	delete [] m_pFields;
+
+	svn_pool_destroy(m_pPool);
 }
 
 CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
@@ -61,22 +66,26 @@ CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
 
 svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_pool_t* pPool)
 {
-	apr_pool_t* pSubpool = svn_pool_create(pPool);
-	svn_client_ctx_t* pClientCtx;
-
-	svn_opt_revision_t rev;
-	rev.kind = svn_opt_revision_head;
-
-	SvnFieldLoaderStatusBaton sBaton;
-	sBaton.pchReqFile = svn_path_internal_style(pchPath, pSubpool);
-	sBaton.pPool = pPool;
-	sBaton.pStatus = NULL;
+	apr_pool_t* pSubpool = svn_pool_create(m_pPool);
+	svn_wc_status2_t* pRet = NULL;
 
 	try
 	{
-		SVN_EX(svn_client_create_context(&pClientCtx, pSubpool));
-		SVN_EX(svn_client_status2(NULL, svn_path_dirname(sBaton.pchReqFile, pSubpool),
-			&rev, statusFunc, &sBaton, FALSE, TRUE, FALSE, TRUE, TRUE, pClientCtx, pSubpool));
+		const char* pchInternalPath = svn_path_internal_style(pchPath, pSubpool);
+		const char* pchDir = svn_path_dirname(pchInternalPath, pSubpool);
+
+		svn_opt_revision_t rev;
+		rev.kind = svn_opt_revision_head;
+
+		SvnFieldLoaderStatusBaton sBaton;
+		sBaton.pchReqFile = pchInternalPath;
+		sBaton.pStatus = NULL;
+		sBaton.pPool = pSubpool;
+
+		SVN_EX(svn_client_status2(NULL, pchDir, &rev, statusFunc, &sBaton, FALSE,
+		                          TRUE, FALSE, TRUE, TRUE, m_pClientCtx, pSubpool));
+
+		pRet = sBaton.pStatus;
 	}
 	catch (...)
 	{
@@ -84,6 +93,11 @@ svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_poo
 		throw;
 	}
 
+	if (pRet)
+	{
+		pRet = 	svn_wc_dup_status2(pRet, pPool);
+	}
+
 	svn_pool_destroy(pSubpool);
-	return sBaton.pStatus;
+	return pRet;
 }

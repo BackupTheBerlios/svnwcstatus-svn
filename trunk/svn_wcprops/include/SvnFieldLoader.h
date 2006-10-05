@@ -4,6 +4,7 @@
 #include "FieldLoader.h"
 
 struct svn_wc_status2_t;
+struct svn_client_ctx_t;
 
 class CSvnFieldLoader : public CFieldLoader
 {
@@ -18,6 +19,8 @@ public:
 private:
 	CContentField** m_pFields;
 	size_t m_nFieldCount;
+	apr_pool_t* m_pPool;
+	svn_client_ctx_t* m_pClientCtx;
 };
 
 #endif
