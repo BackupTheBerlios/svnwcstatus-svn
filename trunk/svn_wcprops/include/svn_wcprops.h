@@ -12,9 +12,9 @@
 
 #define SVN_EX(expr)                            \
 {                                               \
-	svn_error_t* svn_err__temp = (expr);        \
+	{svn_error_t* svn_err__temp = (expr);       \
 	if (svn_err__temp)                          \
-		throw new CSvnEx(svn_err__temp);        \
+		throw new CSvnEx(svn_err__temp);}       \
 }
 
 #endif
