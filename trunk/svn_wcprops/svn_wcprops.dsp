@@ -160,6 +160,10 @@ SOURCE=.\SvnFieldLoader.cpp
 
 SOURCE=.\SvnFieldLoader__EntryCache.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\SvnPool.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -235,6 +239,10 @@ SOURCE=.\include\SvnFieldLoader.h
 # Begin Source File
 
 SOURCE=.\SvnFieldLoader__EntryCache.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\SvnPool.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

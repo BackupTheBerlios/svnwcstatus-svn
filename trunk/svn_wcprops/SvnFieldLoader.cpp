@@ -23,14 +23,13 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 		const char* pchInternalFile = svn_path_internal_style(pchPath, pData->pTempPool);
 		const char* pchBaseName = svn_path_basename(pchInternalFile, pData->pTempPool);
 		pData->pCache->putEntry(pStatus, pchBaseName);
-		apr_pool_clear(pData->pTempPool);
 	}
 }
 
 CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields(new CContentField*[4]),
 	m_nFieldCount(0),
-	m_pPool(svn_pool_create(NULL)),
+	m_oPool(),
 	m_pLastEntry(NULL)
 {
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnAuthor(*this);
@@ -38,7 +37,7 @@ CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnSchedule(*this);
 	m_pFields[m_nFieldCount] = NULL;
 
-	SVN_EX(svn_client_create_context(&m_pClientCtx, m_pPool));
+	SVN_EX(svn_client_create_context(&m_pClientCtx, m_oPool));
 }
 
 CSvnFieldLoader::~CSvnFieldLoader()
@@ -54,8 +53,6 @@ CSvnFieldLoader::~CSvnFieldLoader()
 	{
 		delete m_pLastEntry;
 	}
-
-	svn_pool_destroy(m_pPool);
 }
 
 CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
@@ -70,49 +67,41 @@ CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
 
 svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_pool_t* pPool)
 {
-	apr_pool_t* pSubpool = svn_pool_create(m_pPool);
+	CSvnPool oSubpool(m_oPool);
 	svn_wc_status2_t* pRet = NULL;
 
-	do try
+	const char* pchInternalPath = svn_path_internal_style(pchPath, oSubpool);
+	const char* pchDir = svn_path_dirname(pchInternalPath, oSubpool);
+	const char* pchBaseName = svn_path_basename(pchInternalPath, oSubpool);
+
+	if (m_pLastEntry)
 	{
-		const char* pchInternalPath = svn_path_internal_style(pchPath, pSubpool);
-		const char* pchDir = svn_path_dirname(pchInternalPath, pSubpool);
-		const char* pchBaseName = svn_path_basename(pchInternalPath, pSubpool);
-
-		if (m_pLastEntry)
+		if (m_pLastEntry->isPath(pchDir))
 		{
-			if (m_pLastEntry->isPath(pchDir))
-			{
-				pRet= m_pLastEntry->getEntry(pchBaseName);
-				break;
-			}
-
-			m_pLastEntry->clear(pchDir);
-		}
-		else
-		{
-			m_pLastEntry = new CEntryCache(pchDir);
+			return dupEntry(m_pLastEntry->getEntry(pchBaseName), pPool);
 		}
 
-		svn_opt_revision_t rev;
-		rev.kind = svn_opt_revision_head;
-
-		SvnFieldLoaderStatusBaton sBaton;
-		sBaton.pCache = m_pLastEntry;
-		sBaton.pTempPool = svn_pool_create(pSubpool);
-
-		SVN_EX(svn_client_status2(NULL, pchDir, &rev, statusFunc, &sBaton, FALSE,
-		                          TRUE, FALSE, TRUE, TRUE, m_pClientCtx, pSubpool));
-
-		pRet = m_pLastEntry->getEntry(pchBaseName);
+		m_pLastEntry->clear(pchDir);
 	}
-	catch (...)
+	else
 	{
-		svn_pool_destroy(pSubpool);
-		throw;
-	} while (false);
+		m_pLastEntry = new CEntryCache(pchDir);
+	}
 
+	svn_opt_revision_t rev;
+	rev.kind = svn_opt_revision_head;
 
-	svn_pool_destroy(pSubpool);
-	return pRet ? svn_wc_dup_status2(pRet, pPool) : NULL;
+	SvnFieldLoaderStatusBaton sBaton;
+	sBaton.pCache = m_pLastEntry;
+	sBaton.pTempPool = (apr_pool_t*)oSubpool;
+
+	SVN_EX(svn_client_status2(NULL, pchDir, &rev, statusFunc, &sBaton, FALSE,
+	                          TRUE, FALSE, TRUE, TRUE, m_pClientCtx, oSubpool));
+
+	return dupEntry(m_pLastEntry->getEntry(pchBaseName), pPool);
+}
+
+svn_wc_status2_t* CSvnFieldLoader::dupEntry(svn_wc_status2_t* pEntry, apr_pool_t* pPool)
+{
+	return pEntry ? svn_wc_dup_status2(pEntry, pPool) : NULL;
 }

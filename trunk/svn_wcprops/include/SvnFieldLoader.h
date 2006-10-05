@@ -3,6 +3,8 @@
 
 #include "FieldLoader.h"
 
+#include "SvnPool.h"
+
 struct svn_wc_status2_t;
 struct svn_client_ctx_t;
 
@@ -21,10 +23,12 @@ public:
 private:
 	CContentField** m_pFields;
 	size_t m_nFieldCount;
-	apr_pool_t* m_pPool;
+	CSvnPool m_oPool;
 	svn_client_ctx_t* m_pClientCtx;
 
 	CEntryCache* m_pLastEntry;
+
+	static svn_wc_status2_t* dupEntry(svn_wc_status2_t* pEntry, apr_pool_t* pPool);
 };
 
 #endif
