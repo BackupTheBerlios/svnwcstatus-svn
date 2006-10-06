@@ -110,7 +110,15 @@ SOURCE=.\ContentFieldSvnIgnored.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnMultiChoice.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnSchedule.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ContentFieldSvnTextStatus.cpp
 # End Source File
 # Begin Source File
 
@@ -139,6 +147,10 @@ SOURCE=.\MultiChoiceDef.cpp
 # Begin Source File
 
 SOURCE=.\MultiChoiceDefSchedule.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\MultiChoiceDefStatus.cpp
 # End Source File
 # Begin Source File
 
@@ -186,7 +198,15 @@ SOURCE=.\include\ContentFieldSvnIgnored.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\ContentFieldSvnMultiChoice.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\ContentFieldSvnSchedule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnTextStatus.h
 # End Source File
 # Begin Source File
 
@@ -219,6 +239,10 @@ SOURCE=.\include\MultiChoiceDef.h
 # Begin Source File
 
 SOURCE=.\include\MultiChoiceDefSchedule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\MultiChoiceDefStatus.h
 # End Source File
 # Begin Source File
 

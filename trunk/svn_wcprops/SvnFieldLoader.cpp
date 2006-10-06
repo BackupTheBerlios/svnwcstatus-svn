@@ -2,6 +2,7 @@
 #include "SvnFieldLoader__EntryCache.h"
 #include "ContentFieldSvnAuthor.h"
 #include "ContentFieldSvnIgnored.h"
+#include "ContentFieldSvnTextStatus.h"
 #include "ContentFieldSvnSchedule.h"
 
 #include "svn_pools.h"
@@ -27,13 +28,14 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 }
 
 CSvnFieldLoader::CSvnFieldLoader() :
-	m_pFields(new CContentField*[4]),
+	m_pFields(new CContentField*[5]),
 	m_nFieldCount(0),
 	m_oPool(),
 	m_pLastEntry(NULL)
 {
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnAuthor(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnIgnored(*this);
+	m_pFields[m_nFieldCount++] = new CContentFieldSvnTextStatus(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnSchedule(*this);
 	m_pFields[m_nFieldCount] = NULL;
 
