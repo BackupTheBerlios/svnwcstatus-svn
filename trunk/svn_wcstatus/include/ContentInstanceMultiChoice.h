@@ -1,7 +1,7 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTINSTANCEMULTICHOICE__
-#define __TW_WDX_SVN_WCPROPS_CONTENTINSTANCEMULTICHOICE__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCEMULTICHOICE__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCEMULTICHOICE__
 
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 #include "ContentInstance.h"
 
 class CMultiChoiceDef;

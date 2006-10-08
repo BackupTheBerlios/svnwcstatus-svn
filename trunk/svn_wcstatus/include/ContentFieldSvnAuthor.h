@@ -1,7 +1,7 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTFIELDSVNAUTHOR__
-#define __TW_WDX_SVN_WCPROPS_CONTENTFIELDSVNAUTHOR__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTFIELDSVNAUTHOR__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTFIELDSVNAUTHOR__
 
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 
 #include "ContentFieldSvn.h"
 

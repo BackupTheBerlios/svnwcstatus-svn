@@ -1,6 +1,6 @@
 @echo off
 
-echo svn_wcprops working copy is %base_dir%
+echo svn_wcstatus working copy is %base_dir%
 echo.
 
 if defined skip_svn (

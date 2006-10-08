@@ -1,7 +1,7 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTINSTANCEBOOLEAN__
-#define __TW_WDX_SVN_WCPROPS_CONTENTINSTANCEBOOLEAN__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCEBOOLEAN__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCEBOOLEAN__
 
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 #include "ContentInstance.h"
 
 class CContentInstanceBoolean : public CContentInstance

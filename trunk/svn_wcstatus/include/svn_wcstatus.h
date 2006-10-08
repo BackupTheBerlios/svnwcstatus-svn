@@ -1,5 +1,5 @@
-#ifndef __TW_WDX_SVN_WCPROPS__
-#define __TW_WDX_SVN_WCPROPS__
+#ifndef __TW_WDX_SVN_WCSTATUS__
+#define __TW_WDX_SVN_WCSTATUS__
 
 #include <windows.h>
 #include <stdlib.h>

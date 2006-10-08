@@ -1,5 +1,5 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTFIELD__
-#define __TW_WDX_SVN_WCPROPS_CONTENTFIELD__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTFIELD__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTFIELD__
 
 #include "ContentInstance.h"
 

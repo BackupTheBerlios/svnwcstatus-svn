@@ -1,5 +1,5 @@
-#ifndef __TW_WDX_SVN_WCPROPS_SVNEX__
-#define __TW_WDX_SVN_WCPROPS_SVNEX__
+#ifndef __TW_WDX_SVN_WCSTATUS_SVNEX__
+#define __TW_WDX_SVN_WCSTATUS_SVNEX__
 
 #include "svn_error.h"
 

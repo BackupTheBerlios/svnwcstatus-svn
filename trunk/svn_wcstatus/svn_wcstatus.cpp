@@ -1,4 +1,4 @@
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 #include "SvnFieldLoader.h"
 
 #include <apr_general.h>

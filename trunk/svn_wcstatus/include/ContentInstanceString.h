@@ -1,7 +1,7 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTINSTANCESTRING__
-#define __TW_WDX_SVN_WCPROPS_CONTENTINSTANCESTRING__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCESTRING__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCESTRING__
 
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 #include "ContentInstance.h"
 
 class CContentInstanceString : public CContentInstance

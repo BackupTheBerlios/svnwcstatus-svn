@@ -1,7 +1,7 @@
-#ifndef __TW_WDX_SVN_WCPROPS_FILELOADER__
-#define __TW_WDX_SVN_WCPROPS_FILELOADER__
+#ifndef __TW_WDX_SVN_WCSTATUS_FILELOADER__
+#define __TW_WDX_SVN_WCSTATUS_FILELOADER__
 
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 #include "ContentField.h"
 #include "ContentInstance.h"
 

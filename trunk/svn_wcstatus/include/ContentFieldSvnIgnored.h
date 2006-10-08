@@ -1,7 +1,7 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTFIELDSVNIGNORED__
-#define __TW_WDX_SVN_WCPROPS_CONTENTFIELDSVNIGNORED__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTFIELDSVNIGNORED__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTFIELDSVNIGNORED__
 
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 
 #include "ContentFieldSvn.h"
 

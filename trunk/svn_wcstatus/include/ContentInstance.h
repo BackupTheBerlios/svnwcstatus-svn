@@ -1,7 +1,7 @@
-#ifndef __TW_WDX_SVN_WCPROPS_CONTENTINSTANCE__
-#define __TW_WDX_SVN_WCPROPS_CONTENTINSTANCE__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCE__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTINSTANCE__
 
-#include "svn_wcprops.h"
+#include "svn_wcstatus.h"
 
 class CContentField;
 

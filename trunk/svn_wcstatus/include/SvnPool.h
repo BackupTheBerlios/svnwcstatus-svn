@@ -1,5 +1,5 @@
-#ifndef __TW_WDX_SVN_WCPROPS_SVNPOOL__
-#define __TW_WDX_SVN_WCPROPS_SVNPOOL__
+#ifndef __TW_WDX_SVN_WCSTATUS_SVNPOOL__
+#define __TW_WDX_SVN_WCSTATUS_SVNPOOL__
 
 struct apr_pool_t;
 
