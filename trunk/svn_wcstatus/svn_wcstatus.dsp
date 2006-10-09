@@ -106,10 +106,6 @@ SOURCE=.\ContentFieldSvnAuthor.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ContentFieldSvnIgnored.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\ContentFieldSvnMultiChoice.cpp
 # End Source File
 # Begin Source File
@@ -199,10 +195,6 @@ SOURCE=.\include\ContentFieldSvn.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvnAuthor.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\ContentFieldSvnIgnored.h
 # End Source File
 # Begin Source File
 
