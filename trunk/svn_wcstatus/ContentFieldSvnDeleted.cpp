@@ -35,5 +35,5 @@ CContentInstance* CContentFieldSvnDeleted::getInstance(const char* pchPath)
 		throw new CFieldLoader::Ex(CFieldLoader::exNoSuchField);
 	}
 
-	return new CContentInstanceBoolean(*this, pchPath, pStatus->entry->copied == TRUE);
+	return new CContentInstanceBoolean(*this, pchPath, pStatus->entry->deleted == TRUE);
 }
