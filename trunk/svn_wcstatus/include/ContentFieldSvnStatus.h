@@ -3,15 +3,18 @@
 
 #include "ContentFieldSvnMultiChoice.h"
 
+struct svn_wc_status2_t;
+
 class CContentFieldSvnStatus : public CContentFieldSvnMultiChoice
 {
 public:
 	CContentFieldSvnStatus(CSvnFieldLoader& oLoader);
 	virtual ~CContentFieldSvnStatus();
 
-	virtual const char* getName() const;
-
 	virtual CContentInstance* getInstance(const char* pchPath);
+
+protected:
+	virtual int getStatusValue(svn_wc_status2_t* pStatus) const = 0;
 };
 
 #endif
