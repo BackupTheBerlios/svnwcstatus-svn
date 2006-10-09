@@ -118,6 +118,10 @@ SOURCE=.\ContentFieldSvnDeleted.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnIncomplete.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnMultiChoice.cpp
 # End Source File
 # Begin Source File
@@ -231,6 +235,10 @@ SOURCE=.\include\ContentFieldSvnCopied.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvnDeleted.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnIncomplete.h
 # End Source File
 # Begin Source File
 
