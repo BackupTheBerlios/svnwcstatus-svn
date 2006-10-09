@@ -110,6 +110,10 @@ SOURCE=.\ContentFieldSvnCmtAuthor.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnCmtDate.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnCmtRev.cpp
 # End Source File
 # Begin Source File
@@ -167,6 +171,10 @@ SOURCE=.\ContentInstance.cpp
 # Begin Source File
 
 SOURCE=.\ContentInstanceBoolean.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ContentInstanceDateTime.cpp
 # End Source File
 # Begin Source File
 
@@ -242,6 +250,10 @@ SOURCE=.\include\ContentFieldSvnCmtAuthor.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\ContentFieldSvnCmtDate.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\ContentFieldSvnCmtRev.h
 # End Source File
 # Begin Source File
@@ -299,6 +311,10 @@ SOURCE=.\include\ContentInstance.h
 # Begin Source File
 
 SOURCE=.\include\ContentInstanceBoolean.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentInstanceDateTime.h
 # End Source File
 # Begin Source File
 

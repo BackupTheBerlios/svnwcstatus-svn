@@ -20,6 +20,8 @@ public:
 
 	svn_wc_status2_t* getStatusForPath(const char* pchPath, apr_pool_t* pPool);
 
+	void aprTimeToFileTime(apr_time_t nTime, FILETIME& ftTime) const;
+
 private:
 	CContentField** m_pFields;
 	size_t m_nFieldCount;

@@ -3,6 +3,7 @@
 #include "ContentFieldSvnRevision.h"
 #include "ContentFieldSvnCmtAuthor.h"
 #include "ContentFieldSvnCmtRev.h"
+#include "ContentFieldSvnCmtTime.h"
 #include "ContentFieldSvnStatusText.h"
 #include "ContentFieldSvnStatusProps.h"
 #include "ContentFieldSvnSchedule.h"
@@ -37,7 +38,7 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 }
 
 CSvnFieldLoader::CSvnFieldLoader() :
-	m_pFields(new CContentField*[14]),
+	m_pFields(new CContentField*[15]),
 	m_nFieldCount(0),
 	m_oPool(),
 	m_pLastEntry(NULL)
@@ -45,6 +46,7 @@ CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnRevision(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnCmtAuthor(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnCmtRev(*this);
+	m_pFields[m_nFieldCount++] = new CContentFieldSvnCmtTime(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusText(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusProps(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnSchedule(*this);
@@ -119,6 +121,24 @@ svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_poo
 	                          TRUE, FALSE, TRUE, TRUE, m_pClientCtx, oSubpool));
 
 	return dupEntry(m_pLastEntry->getEntry(pchBaseName), pPool);
+}
+
+void CSvnFieldLoader::aprTimeToFileTime(apr_time_t nTime, FILETIME& ftTime) const
+{
+	apr_time_exp_t sAprTime;
+	SYSTEMTIME sSysTime;
+
+	apr_time_exp_gmt(&sAprTime, nTime);
+
+	sSysTime.wMilliseconds = sAprTime.tm_usec / 1000;
+	sSysTime.wSecond       = sAprTime.tm_sec;
+	sSysTime.wMinute       = sAprTime.tm_min;
+	sSysTime.wHour         = sAprTime.tm_hour;
+	sSysTime.wDay          = sAprTime.tm_mday;
+	sSysTime.wMonth        = sAprTime.tm_mon + 1;
+	sSysTime.wYear         = sAprTime.tm_year + 1900;
+
+	SystemTimeToFileTime(&sSysTime, &ftTime);
 }
 
 svn_wc_status2_t* CSvnFieldLoader::dupEntry(svn_wc_status2_t* pEntry, apr_pool_t* pPool)
