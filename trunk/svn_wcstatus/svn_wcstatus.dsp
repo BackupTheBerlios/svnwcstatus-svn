@@ -102,6 +102,10 @@ SOURCE=.\ContentFieldSvn.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnAbsent.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnAuthor.cpp
 # End Source File
 # Begin Source File
@@ -211,6 +215,10 @@ SOURCE=.\include\ContentField.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvn.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnAbsent.h
 # End Source File
 # Begin Source File
 
