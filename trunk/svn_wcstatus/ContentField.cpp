@@ -5,9 +5,9 @@ CContentField::~CContentField()
 {
 }
 
-void CContentField::fillInDefinition(char* pchName, char* pchUnits, int iMaxBuf) const
+int CContentField::fillInDefinition(char* pchName, char* pchUnits, int iMaxBuf) const
 {
-	if (iMaxBuf < 1) return;
+	if (iMaxBuf < 1) return getType();
 		
 	if (pchName)
 	{
@@ -26,6 +26,8 @@ void CContentField::fillInDefinition(char* pchName, char* pchUnits, int iMaxBuf)
 			*pchUnits = '\0';
 		}
 	}
+
+	return getType();
 }
 
 bool CContentField::hasMultiChoiceDef() const

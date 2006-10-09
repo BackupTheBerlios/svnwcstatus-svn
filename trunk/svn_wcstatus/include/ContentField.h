@@ -17,7 +17,7 @@ public:
 	virtual const CMultiChoiceDef* getMultiChoiceDef() const;
 	virtual void getUnits(char* pchUnits, int iMaxBuf) const;
 
-	virtual void fillInDefinition(char* pchName, char* pchUnits, int iMaxBuf) const;
+	virtual int fillInDefinition(char* pchName, char* pchUnits, int iMaxBuf) const;
 
 	virtual CContentInstance* getInstance(const char* pchPath) = 0;
 };

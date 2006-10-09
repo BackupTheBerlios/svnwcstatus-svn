@@ -49,10 +49,7 @@ int __stdcall ContentGetSupportedField(int iFieldIdx, char* pchName, char* pchUn
 	try
 	{
 		const CContentField& oField = g_pLoader->getFieldByIndex(iFieldIdx);
-		oField.fillInDefinition(pchName, pchUnits, iMaxBuf);
-
-
-		return oField.getType();
+		return oField.fillInDefinition(pchName, pchUnits, iMaxBuf);
 	}
 	catch (CFieldLoader::Ex* e)
 	{
