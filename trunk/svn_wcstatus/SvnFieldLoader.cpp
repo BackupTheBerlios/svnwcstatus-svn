@@ -4,6 +4,7 @@
 #include "ContentFieldSvnStatusText.h"
 #include "ContentFieldSvnStatusProps.h"
 #include "ContentFieldSvnSchedule.h"
+#include "ContentFieldSvnUrl.h"
 
 #include "svn_pools.h"
 #include "svn_path.h"
@@ -37,6 +38,7 @@ CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusText(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusProps(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnSchedule(*this);
+	m_pFields[m_nFieldCount++] = new CContentFieldSvnUrl(*this);
 	m_pFields[m_nFieldCount] = NULL;
 
 	SVN_EX(svn_client_create_context(&m_pClientCtx, m_oPool));
