@@ -134,6 +134,10 @@ SOURCE=.\ContentFieldSvnMultiChoice.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnPropTime.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnRepos.cpp
 # End Source File
 # Begin Source File
@@ -279,6 +283,10 @@ SOURCE=.\include\ContentFieldSvnIncomplete.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvnMultiChoice.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnPropTime.h
 # End Source File
 # Begin Source File
 
