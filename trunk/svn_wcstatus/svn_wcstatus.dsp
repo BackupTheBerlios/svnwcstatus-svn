@@ -130,6 +130,10 @@ SOURCE=.\ContentFieldSvnIncomplete.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnLockToken.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnMultiChoice.cpp
 # End Source File
 # Begin Source File
@@ -279,6 +283,10 @@ SOURCE=.\include\ContentFieldSvnDeleted.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvnIncomplete.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnLockToken.h
 # End Source File
 # Begin Source File
 
