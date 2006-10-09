@@ -23,7 +23,7 @@ const char* CContentFieldSvnTextStatus::getName() const
 	return "svn-text-status";
 }
 
-CContentInstancePtr CContentFieldSvnTextStatus::getInstance(const char* pchPath)
+CContentInstance* CContentFieldSvnTextStatus::getInstance(const char* pchPath)
 {
 	CSvnPool oPool;
 	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);

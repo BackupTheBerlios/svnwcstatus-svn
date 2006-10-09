@@ -1,6 +1,8 @@
 #include "svn_wcstatus.h"
 #include "SvnFieldLoader.h"
 
+#include "SmartPtr.h"
+
 #include <apr_general.h>
 
 static CSvnFieldLoader* g_pLoader;
@@ -63,8 +65,7 @@ int __stdcall ContentGetValue(char* pchPath, int iFieldIdx, int iUnitIdx, void* 
 {
 	try
 	{
-		CContentInstancePtr pTheInstance = g_pLoader->getFieldByIndex(iFieldIdx).getInstance(pchPath);
-
+		TSmartPtr<CContentInstance> pTheInstance(g_pLoader->getFieldByIndex(iFieldIdx).getInstance(pchPath));
 		return pTheInstance->copyValueTo(&pValue, iMaxBuf);
 	}
 	catch (CFieldLoader::Ex* e)

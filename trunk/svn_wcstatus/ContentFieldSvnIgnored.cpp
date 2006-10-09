@@ -25,7 +25,7 @@ int CContentFieldSvnIgnored::getType() const
 	return ft_boolean;
 }
 
-CContentInstancePtr CContentFieldSvnIgnored::getInstance(const char* pchPath)
+CContentInstance* CContentFieldSvnIgnored::getInstance(const char* pchPath)
 {
 	CSvnPool oPool;
 	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);

@@ -13,7 +13,7 @@ public:
 
 	virtual const char* getName() const;
 
-	virtual CContentInstancePtr getInstance(const char* pchPath);
+	virtual CContentInstance* getInstance(const char* pchPath);
 };
 
 #endif

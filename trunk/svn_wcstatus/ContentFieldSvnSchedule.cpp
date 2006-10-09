@@ -23,7 +23,7 @@ const char* CContentFieldSvnSchedule::getName() const
 	return "svn-schedule";
 }
 
-CContentInstancePtr CContentFieldSvnSchedule::getInstance(const char* pchPath)
+CContentInstance* CContentFieldSvnSchedule::getInstance(const char* pchPath)
 {
 	CSvnPool oPool;
 	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);

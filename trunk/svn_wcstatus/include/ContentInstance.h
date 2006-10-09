@@ -20,6 +20,4 @@ protected:
 	CContentInstance(const CContentField& oField, const char* pchPath);
 };
 
-typedef TSmartPtr<CContentInstance> CContentInstancePtr;
-
 #endif

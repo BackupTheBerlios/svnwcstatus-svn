@@ -25,7 +25,7 @@ int CContentFieldSvnAuthor::getType() const
 	return ft_string;
 }
 
-CContentInstancePtr CContentFieldSvnAuthor::getInstance(const char* pchPath)
+CContentInstance* CContentFieldSvnAuthor::getInstance(const char* pchPath)
 {
 	CSvnPool oPool;
 	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);

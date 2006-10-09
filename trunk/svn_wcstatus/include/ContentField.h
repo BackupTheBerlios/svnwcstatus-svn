@@ -19,9 +19,7 @@ public:
 
 	virtual void fillInDefinition(char* pchName, char* pchUnits, int iMaxBuf) const;
 
-	virtual CContentInstancePtr getInstance(const char* pchPath) = 0;
+	virtual CContentInstance* getInstance(const char* pchPath) = 0;
 };
-
-typedef TSmartPtr<CContentField> CContentFieldPtr;
 
 #endif

@@ -16,6 +16,4 @@ protected:
 	char* m_achValue;
 };
 
-typedef TSmartPtr<CContentInstanceString> CContentInstanceStringPtr;
-
 #endif

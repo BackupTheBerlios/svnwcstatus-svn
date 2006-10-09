@@ -6,8 +6,6 @@
 
 #include "contentplug.h"
 
-#include "SmartPtr.h"
-
 #include "SvnEx.h"
 
 #define SVN_EX(expr)                            \
