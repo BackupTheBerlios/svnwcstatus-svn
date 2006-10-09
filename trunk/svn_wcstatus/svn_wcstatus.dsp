@@ -130,6 +130,10 @@ SOURCE=.\ContentFieldSvnRepos.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnRevision.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnSchedule.cpp
 # End Source File
 # Begin Source File
@@ -163,6 +167,10 @@ SOURCE=.\ContentInstanceBoolean.cpp
 # Begin Source File
 
 SOURCE=.\ContentInstanceMultiChoice.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ContentInstanceNumeric32.cpp
 # End Source File
 # Begin Source File
 
@@ -250,6 +258,10 @@ SOURCE=.\include\ContentFieldSvnRepos.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\ContentFieldSvnRevision.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\ContentFieldSvnSchedule.h
 # End Source File
 # Begin Source File
@@ -283,6 +295,10 @@ SOURCE=.\include\ContentInstanceBoolean.h
 # Begin Source File
 
 SOURCE=.\include\ContentInstanceMultiChoice.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentInstanceNumeric32.h
 # End Source File
 # Begin Source File
 
