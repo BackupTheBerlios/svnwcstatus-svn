@@ -1,4 +1,4 @@
-#include "ContentFieldSvnStatusprops.h"
+#include "ContentFieldSvnStatusProps.h"
 #include "MultiChoiceDef.h"
 
 #include "svn_wc.h"
