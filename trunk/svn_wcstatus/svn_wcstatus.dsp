@@ -118,7 +118,7 @@ SOURCE=.\ContentFieldSvnSchedule.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ContentFieldSvnTextStatus.cpp
+SOURCE=.\ContentFieldSvnStatus.cpp
 # End Source File
 # Begin Source File
 
@@ -206,7 +206,7 @@ SOURCE=.\include\ContentFieldSvnSchedule.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\ContentFieldSvnTextStatus.h
+SOURCE=.\include\ContentFieldSvnStatus.h
 # End Source File
 # Begin Source File
 

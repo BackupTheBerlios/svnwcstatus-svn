@@ -1,4 +1,4 @@
-#include "ContentFieldSvnTextStatus.h"
+#include "ContentFieldSvnStatus.h"
 #include "SvnFieldLoader.h"
 #include "MultiChoiceDefStatus.h"
 #include "ContentInstanceMultiChoice.h"
@@ -8,22 +8,22 @@
 #include "svn_wc.h"
 
 #pragma warning(disable: 4355)  // 'this' : used in base member initializer list
-CContentFieldSvnTextStatus::CContentFieldSvnTextStatus(CSvnFieldLoader& oLoader) :
+CContentFieldSvnStatus::CContentFieldSvnStatus(CSvnFieldLoader& oLoader) :
 	CContentFieldSvnMultiChoice(oLoader, new CMultiChoiceDefStatus(*this))
 {
 }
 #pragma warning(default: 4355)
 
-CContentFieldSvnTextStatus::~CContentFieldSvnTextStatus()
+CContentFieldSvnStatus::~CContentFieldSvnStatus()
 {
 }
 
-const char* CContentFieldSvnTextStatus::getName() const
+const char* CContentFieldSvnStatus::getName() const
 {
 	return "svn-text-status";
 }
 
-CContentInstance* CContentFieldSvnTextStatus::getInstance(const char* pchPath)
+CContentInstance* CContentFieldSvnStatus::getInstance(const char* pchPath)
 {
 	CSvnPool oPool;
 	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);

@@ -3,11 +3,11 @@
 
 #include "ContentFieldSvnMultiChoice.h"
 
-class CContentFieldSvnTextStatus : public CContentFieldSvnMultiChoice
+class CContentFieldSvnStatus : public CContentFieldSvnMultiChoice
 {
 public:
-	CContentFieldSvnTextStatus(CSvnFieldLoader& oLoader);
-	virtual ~CContentFieldSvnTextStatus();
+	CContentFieldSvnStatus(CSvnFieldLoader& oLoader);
+	virtual ~CContentFieldSvnStatus();
 
 	virtual const char* getName() const;
 
