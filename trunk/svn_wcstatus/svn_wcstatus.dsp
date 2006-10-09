@@ -106,6 +106,10 @@ SOURCE=.\ContentFieldSvnAuthor.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnCopied.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnDeleted.cpp
 # End Source File
 # Begin Source File
@@ -211,6 +215,10 @@ SOURCE=.\include\ContentFieldSvn.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvnAuthor.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnCopied.h
 # End Source File
 # Begin Source File
 

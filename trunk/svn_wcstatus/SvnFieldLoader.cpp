@@ -7,6 +7,7 @@
 #include "ContentFieldSvnUrl.h"
 #include "ContentFieldSvnRepos.h"
 #include "ContentFieldSvnUuid.h"
+#include "ContentFieldSvnCopied.h"
 #include "ContentFieldSvnDeleted.h"
 
 #include "svn_pools.h"
@@ -32,7 +33,7 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 }
 
 CSvnFieldLoader::CSvnFieldLoader() :
-	m_pFields(new CContentField*[9]),
+	m_pFields(new CContentField*[10]),
 	m_nFieldCount(0),
 	m_oPool(),
 	m_pLastEntry(NULL)
@@ -44,6 +45,7 @@ CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnUrl(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnRepos(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnUuid(*this);
+	m_pFields[m_nFieldCount++] = new CContentFieldSvnCopied(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnDeleted(*this);
 	m_pFields[m_nFieldCount] = NULL;
 
