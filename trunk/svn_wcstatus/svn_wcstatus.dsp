@@ -110,11 +110,11 @@ SOURCE=.\ContentFieldSvnCmtAuthor.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ContentFieldSvnCmtDate.cpp
+SOURCE=.\ContentFieldSvnCmtRev.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\ContentFieldSvnCmtRev.cpp
+SOURCE=.\ContentFieldSvnCmtTime.cpp
 # End Source File
 # Begin Source File
 
@@ -158,6 +158,10 @@ SOURCE=.\ContentFieldSvnStatusText.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnTextTime.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnUrl.cpp
 # End Source File
 # Begin Source File
@@ -175,6 +179,10 @@ SOURCE=.\ContentInstanceBoolean.cpp
 # Begin Source File
 
 SOURCE=.\ContentInstanceDateTime.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ContentInstanceEmpty.cpp
 # End Source File
 # Begin Source File
 
@@ -250,11 +258,11 @@ SOURCE=.\include\ContentFieldSvnCmtAuthor.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\ContentFieldSvnCmtDate.h
+SOURCE=.\include\ContentFieldSvnCmtRev.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\ContentFieldSvnCmtRev.h
+SOURCE=.\include\ContentFieldSvnCmtTime.h
 # End Source File
 # Begin Source File
 
@@ -298,6 +306,10 @@ SOURCE=.\include\ContentFieldSvnStatusText.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\ContentFieldSvnTextTime.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\ContentFieldSvnUrl.h
 # End Source File
 # Begin Source File
@@ -315,6 +327,10 @@ SOURCE=.\include\ContentInstanceBoolean.h
 # Begin Source File
 
 SOURCE=.\include\ContentInstanceDateTime.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentInstanceEmpty.h
 # End Source File
 # Begin Source File
 

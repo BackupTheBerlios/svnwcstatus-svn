@@ -14,6 +14,7 @@
 #include "ContentFieldSvnDeleted.h"
 #include "ContentFieldSvnAbsent.h"
 #include "ContentFieldSvnIncomplete.h"
+#include "ContentFieldSvnTextTime.h"
 
 #include "svn_pools.h"
 #include "svn_path.h"
@@ -38,7 +39,7 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 }
 
 CSvnFieldLoader::CSvnFieldLoader() :
-	m_pFields(new CContentField*[15]),
+	m_pFields(new CContentField*[16]),
 	m_nFieldCount(0),
 	m_oPool(),
 	m_pLastEntry(NULL)
@@ -57,6 +58,7 @@ CSvnFieldLoader::CSvnFieldLoader() :
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnDeleted(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnAbsent(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnIncomplete(*this);
+	m_pFields[m_nFieldCount++] = new CContentFieldSvnTextTime(*this);
 	m_pFields[m_nFieldCount] = NULL;
 
 	SVN_EX(svn_client_create_context(&m_pClientCtx, m_oPool));
