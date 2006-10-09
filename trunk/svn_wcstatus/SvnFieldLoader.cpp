@@ -1,6 +1,7 @@
 #include "SvnFieldLoader.h"
 #include "SvnFieldLoader__EntryCache.h"
-#include "ContentFieldSvnAuthor.h"
+#include "ContentFieldSvnRevision.h"
+#include "ContentFieldSvnCmtAuthor.h"
 #include "ContentFieldSvnStatusText.h"
 #include "ContentFieldSvnStatusProps.h"
 #include "ContentFieldSvnSchedule.h"
@@ -11,7 +12,6 @@
 #include "ContentFieldSvnDeleted.h"
 #include "ContentFieldSvnAbsent.h"
 #include "ContentFieldSvnIncomplete.h"
-#include "ContentFieldSvnRevision.h"
 
 #include "svn_pools.h"
 #include "svn_path.h"
@@ -42,7 +42,7 @@ CSvnFieldLoader::CSvnFieldLoader() :
 	m_pLastEntry(NULL)
 {
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnRevision(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnAuthor(*this);
+	m_pFields[m_nFieldCount++] = new CContentFieldSvnCmtAuthor(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusText(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusProps(*this);
 	m_pFields[m_nFieldCount++] = new CContentFieldSvnSchedule(*this);

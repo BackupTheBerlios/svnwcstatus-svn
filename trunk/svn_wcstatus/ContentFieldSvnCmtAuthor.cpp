@@ -1,4 +1,4 @@
-#include "ContentFieldSvnAuthor.h"
+#include "ContentFieldSvnCmtAuthor.h"
 #include "SvnFieldLoader.h"
 #include "ContentInstanceString.h"
 
@@ -6,26 +6,26 @@
 
 #include "svn_wc.h"
 
-CContentFieldSvnAuthor::CContentFieldSvnAuthor(CSvnFieldLoader& oLoader) :
+CContentFieldSvnCmtAuthor::CContentFieldSvnCmtAuthor(CSvnFieldLoader& oLoader) :
 	CContentFieldSvn(oLoader)
 {
 }
 
-CContentFieldSvnAuthor::~CContentFieldSvnAuthor()
+CContentFieldSvnCmtAuthor::~CContentFieldSvnCmtAuthor()
 {
 }
 
-const char* CContentFieldSvnAuthor::getName() const
+const char* CContentFieldSvnCmtAuthor::getName() const
 {
-	return "svn-author";
+	return "svn-cmt-author";
 }
 
-int CContentFieldSvnAuthor::getType() const
+int CContentFieldSvnCmtAuthor::getType() const
 {
 	return ft_string;
 }
 
-CContentInstance* CContentFieldSvnAuthor::getInstance(const char* pchPath)
+CContentInstance* CContentFieldSvnCmtAuthor::getInstance(const char* pchPath)
 {
 	CSvnPool oPool;
 	svn_wc_status2_t* pStatus = getParent().getStatusForPath(pchPath, oPool);
