@@ -105,8 +105,14 @@ svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_poo
 	svn_wc_status2_t* pRet = NULL;
 
 	const char* pchInternalPath = svn_path_internal_style(pchPath, oSubpool);
-	const char* pchDir = svn_path_dirname(pchInternalPath, oSubpool);
 	const char* pchBaseName = svn_path_basename(pchInternalPath, oSubpool);
+
+	if (svn_wc_is_adm_dir(pchBaseName, oSubpool))
+	{
+		return NULL;
+	}
+
+	const char* pchDir = svn_path_dirname(pchInternalPath, oSubpool);
 
 	if (m_pLastEntry)
 	{
@@ -137,18 +143,22 @@ svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_poo
 
 void CSvnFieldLoader::aprTimeToFileTime(apr_time_t nTime, FILETIME& ftTime) const
 {
-	apr_time_exp_t sAprTime;
-	SYSTEMTIME sSysTime;
+	// XXX error handling?
 
+	apr_time_exp_t sAprTime = {0};
 	apr_time_exp_gmt(&sAprTime, nTime);
 
-	sSysTime.wMilliseconds = sAprTime.tm_usec / 1000;
-	sSysTime.wSecond       = sAprTime.tm_sec;
-	sSysTime.wMinute       = sAprTime.tm_min;
-	sSysTime.wHour         = sAprTime.tm_hour;
-	sSysTime.wDay          = sAprTime.tm_mday;
-	sSysTime.wMonth        = sAprTime.tm_mon + 1;
-	sSysTime.wYear         = sAprTime.tm_year + 1900;
+	SYSTEMTIME sSysTime = 
+	{
+		sAprTime.tm_year + 1900,  // wYear
+		sAprTime.tm_mon + 1,      // wMonth
+		0,                        // wDayOfWeek
+		sAprTime.tm_mday,         // wDay
+		sAprTime.tm_hour,         // wHour
+		sAprTime.tm_min,          // wMinute
+		sAprTime.tm_sec,          // wSecond
+		sAprTime.tm_usec / 1000   // wMilliseconds
+	};
 
 	SystemTimeToFileTime(&sSysTime, &ftTime);
 }
