@@ -43,46 +43,30 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 	}
 }
 
+static int cleanupFieldArray(void* pData)
+{
+	apr_array_header_t* pArray = reinterpret_cast<apr_array_header_t*>(pData);
+
+	for (int i = 0; i < pArray->nelts; ++i)
+	{
+		delete *reinterpret_cast<CContentFieldSvn**>(pArray->elts + (pArray->elt_size * i));
+	}
+
+	return APR_SUCCESS;
+}
+
 CSvnFieldLoader::CSvnFieldLoader() :
-	m_pFields(new CContentField*[21]),
-	m_nFieldCount(0),
 	m_oPool(),
+	m_pFields(NULL),
+	m_pClientCtx(NULL),
 	m_pLastEntry(NULL)
 {
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnRevision(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnCmtAuthor(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnCmtRev(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnCmtTime(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusText(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnStatusProps(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnSchedule(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnUrl(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnRepos(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnUuid(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnCopied(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnDeleted(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnAbsent(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnIncomplete(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnTextTime(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnPropTime(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnLockToken(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnLockOwner(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnLockComment(*this);
-	m_pFields[m_nFieldCount++] = new CContentFieldSvnLockCreationDate(*this);
-	m_pFields[m_nFieldCount] = NULL;
-
 	SVN_EX(svn_client_create_context(&m_pClientCtx, m_oPool));
+	createDefaultContentFields();
 }
 
 CSvnFieldLoader::~CSvnFieldLoader()
 {
-	for (CContentField* pField = *m_pFields; pField; ++pField)
-	{
-		delete pField;
-	}
-
-	delete [] m_pFields;
-
 	if (m_pLastEntry)
 	{
 		delete m_pLastEntry;
@@ -96,17 +80,59 @@ CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
 		throw new CFieldLoader::Ex(CFieldLoader::exNoSuchFieldIndex);
 	}
 
-	return *(m_pFields[iIdx]);
+	return *getField(iIdx);
 }
 
 size_t CSvnFieldLoader::getFieldCount() const
 {
-	return m_nFieldCount;
+	return m_pFields ? m_pFields->nelts : 0;
 }
 
 void CSvnFieldLoader::initParameters(const ContentDefaultParamStruct& sParams)
 {
 	// parse INI file
+}
+
+CContentFieldSvn* CSvnFieldLoader::getField(int iIdx)
+{
+	return *reinterpret_cast<CContentFieldSvn**>(m_pFields->elts + (m_pFields->elt_size * iIdx));
+}
+
+void CSvnFieldLoader::appendField(CContentFieldSvn* pField)
+{
+	*reinterpret_cast<CContentFieldSvn**>(apr_array_push(m_pFields)) = pField;
+}
+
+void CSvnFieldLoader::createDefaultContentFields()
+{
+	m_pFields = apr_array_make(svn_pool_create(m_oPool), 25, sizeof (CContentFieldSvn*));
+	apr_pool_cleanup_register(m_pFields->pool, m_pFields, cleanupFieldArray, NULL);
+	appendDefaultContentFields();
+}
+
+void CSvnFieldLoader::appendDefaultContentFields()
+{
+	appendField(new CContentFieldSvnRevision(*this));
+	appendField(new CContentFieldSvnRevision(*this));
+	appendField(new CContentFieldSvnCmtAuthor(*this));
+	appendField(new CContentFieldSvnCmtRev(*this));
+	appendField(new CContentFieldSvnCmtTime(*this));
+	appendField(new CContentFieldSvnStatusText(*this));
+	appendField(new CContentFieldSvnStatusProps(*this));
+	appendField(new CContentFieldSvnSchedule(*this));
+	appendField(new CContentFieldSvnUrl(*this));
+	appendField(new CContentFieldSvnRepos(*this));
+	appendField(new CContentFieldSvnUuid(*this));
+	appendField(new CContentFieldSvnCopied(*this));
+	appendField(new CContentFieldSvnDeleted(*this));
+	appendField(new CContentFieldSvnAbsent(*this));
+	appendField(new CContentFieldSvnIncomplete(*this));
+	appendField(new CContentFieldSvnTextTime(*this));
+	appendField(new CContentFieldSvnPropTime(*this));
+	appendField(new CContentFieldSvnLockToken(*this));
+	appendField(new CContentFieldSvnLockOwner(*this));
+	appendField(new CContentFieldSvnLockComment(*this));
+	appendField(new CContentFieldSvnLockCreationDate(*this));
 }
 
 svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_pool_t* pPool)
