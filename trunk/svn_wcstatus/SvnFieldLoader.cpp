@@ -45,7 +45,7 @@ static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pSta
 
 static int cleanupFieldArray(void* pData)
 {
-	apr_array_header_t* pArray = reinterpret_cast<apr_array_header_t*>(pData);
+	apr_array_header_t* pArray = static_cast<apr_array_header_t*>(pData);
 
 	for (int i = 0; i < pArray->nelts; ++i)
 	{
@@ -100,7 +100,7 @@ CContentFieldSvn* CSvnFieldLoader::getField(int iIdx)
 
 void CSvnFieldLoader::appendField(CContentFieldSvn* pField)
 {
-	*reinterpret_cast<CContentFieldSvn**>(apr_array_push(m_pFields)) = pField;
+	*static_cast<CContentFieldSvn**>(apr_array_push(m_pFields)) = pField;
 }
 
 void CSvnFieldLoader::createDefaultContentFields()
