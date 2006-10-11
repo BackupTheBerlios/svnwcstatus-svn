@@ -14,6 +14,16 @@ CContentInstanceString::CContentInstanceString(const CContentField& oField, cons
 	}
 }
 
+CContentInstanceString::CContentInstanceString(const CContentField& oField, const char* pchPath, const char* pchValue, size_t nLen) :
+	CContentInstance(oField, pchPath),
+	m_achValue(nLen && pchValue ? strncpy(new char[nLen + 1], pchValue, nLen) : NULL)
+{
+	if (m_achValue)
+	{
+		m_achValue[nLen] = '\0';
+	}
+}
+
 CContentInstanceString::~CContentInstanceString()
 {
 	if (m_achValue)
