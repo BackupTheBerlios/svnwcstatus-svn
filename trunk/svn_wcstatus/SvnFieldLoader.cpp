@@ -33,10 +33,9 @@ struct SvnFieldLoaderStatusBaton
 
 static void statusFunc(void* pBaton, const char* pchPath, svn_wc_status2_t *pStatus)
 {
-	SvnFieldLoaderStatusBaton* pData = static_cast<SvnFieldLoaderStatusBaton*>(pBaton);
-
 	if (pStatus)
 	{
+		SvnFieldLoaderStatusBaton* pData = static_cast<SvnFieldLoaderStatusBaton*>(pBaton);
 		const char* pchInternalFile = svn_path_internal_style(pchPath, pData->pTempPool);
 		const char* pchBaseName = svn_path_basename(pchInternalFile, pData->pTempPool);
 		pData->pCache->putEntry(pStatus, pchBaseName);
