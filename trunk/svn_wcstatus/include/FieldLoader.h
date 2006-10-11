@@ -5,7 +5,7 @@
 #include "ContentField.h"
 #include "ContentInstance.h"
 
-class CFieldLoader  
+class CFieldLoader
 {
 public:
 	enum ex_e
@@ -28,6 +28,9 @@ public:
 	virtual ~CFieldLoader();
 
 	virtual CContentField& getFieldByIndex(int iIdx) = 0;
+	virtual size_t getFieldCount() const = 0;
+
+	virtual void initParameters(const ContentDefaultParamStruct& sParams) = 0;
 };
 
 #endif

@@ -3,9 +3,9 @@
 
 #include "SmartPtr.h"
 
-#include <apr_general.h>
+#include "apr_general.h"
 
-static CSvnFieldLoader* g_pLoader;
+static CFieldLoader* g_pLoader;
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
@@ -75,4 +75,10 @@ int __stdcall ContentGetValue(char* pchPath, int iFieldIdx, int iUnitIdx, void* 
 		delete e;
 		return ft_nosuchfield;
 	}
+}
+
+void __stdcall ContentSetDefaultParams(ContentDefaultParamStruct* psParams)
+{
+	if (psParams)
+		g_pLoader->initParameters(*psParams);
 }

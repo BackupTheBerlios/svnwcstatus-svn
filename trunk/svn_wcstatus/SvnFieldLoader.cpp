@@ -91,12 +91,22 @@ CSvnFieldLoader::~CSvnFieldLoader()
 
 CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
 {
-	if (iIdx < 0 || (size_t)iIdx >= m_nFieldCount)
+	if (iIdx < 0 || (size_t)iIdx >= getFieldCount())
 	{
 		throw new CFieldLoader::Ex(CFieldLoader::exNoSuchFieldIndex);
 	}
 
 	return *(m_pFields[iIdx]);
+}
+
+size_t CSvnFieldLoader::getFieldCount() const
+{
+	return m_nFieldCount;
+}
+
+void CSvnFieldLoader::initParameters(const ContentDefaultParamStruct& sParams)
+{
+	// parse INI file
 }
 
 svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_pool_t* pPool)
