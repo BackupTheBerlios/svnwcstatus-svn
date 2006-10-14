@@ -7,37 +7,40 @@
 
 static CFieldLoader* g_pLoader;
 
+static bool dllProcessAttach()
+{
+	if (apr_initialize() != APR_SUCCESS)
+		return false;
+
+	try
+	{
+		g_pLoader = new CSvnFieldLoader();
+	}
+	catch (...)
+	{
+		apr_terminate();
+		return false;
+	}
+
+	return true;
+}
+
+static bool dllProcessDetach()
+{
+	delete g_pLoader;
+	apr_terminate();
+	return true;
+}
+
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		if (apr_initialize() != APR_SUCCESS)
-		{
-			return FALSE;
-		}
-
-		try
-		{
-			g_pLoader = new CSvnFieldLoader();
-		}
-		catch (...)
-		{
-			apr_terminate();
-			return FALSE;
-		}
-
-		return TRUE;
+		return dllProcessAttach() ? TRUE : FALSE;
 
 	case DLL_PROCESS_DETACH:
-		delete g_pLoader;
-		apr_terminate();
-		return TRUE;
-
-	// currently unused
-	case DLL_THREAD_ATTACH:
-	case DLL_THREAD_DETACH:
-		return TRUE;
+		return dllProcessDetach() ? TRUE : FALSE;
 
 	default:
 		return TRUE;
