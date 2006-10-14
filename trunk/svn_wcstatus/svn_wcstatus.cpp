@@ -9,6 +9,14 @@ static CFieldLoader* g_pLoader;
 
 static bool dllProcessAttach()
 {
+	HMODULE hModule = GetModuleHandle(MODULE_NAME);
+
+	if (!hModule)
+		return false;
+
+	if (!DisableThreadLibraryCalls(hModule))
+		return false;
+
 	if (apr_initialize() != APR_SUCCESS)
 		return false;
 

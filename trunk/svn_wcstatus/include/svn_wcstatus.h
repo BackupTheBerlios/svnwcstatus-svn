@@ -15,4 +15,12 @@
 		throw new CSvnEx(svn_err__temp);}       \
 }
 
+#define PLUGIN_NAME "svn_wcstatus"
+
+#ifdef _DEBUG
+#define MODULE_NAME PLUGIN_NAME "D.wdx"
+#else
+#define MODULE_NAME PLUGIN_NAME ".wdx"
+#endif
+
 #endif
