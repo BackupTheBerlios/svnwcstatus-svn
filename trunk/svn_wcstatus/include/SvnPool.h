@@ -11,10 +11,12 @@ public:
 	explicit CSvnPool(apr_pool_t* pParent);
 	~CSvnPool();
 
+	apr_pool_t* replace(apr_pool_t* pPool);
+
 	CSvnPool& clear();
 	void destroy();
 
-	void release();
+	apr_pool_t* release();
 
 	operator apr_pool_t*();
 
