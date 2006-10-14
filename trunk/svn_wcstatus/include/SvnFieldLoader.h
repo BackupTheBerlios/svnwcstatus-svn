@@ -5,6 +5,8 @@
 
 #include "SvnPool.h"
 
+#include "apr_time.h"
+
 class CContentFieldSvn;
 
 struct apr_array_header_t;

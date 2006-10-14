@@ -4,6 +4,7 @@
 #include "SvnFieldLoader.h"
 
 struct apr_pool_t;
+struct apr_hash_t;
 struct svn_wc_status2_t;
 
 class CSvnFieldLoader::CEntryCache
