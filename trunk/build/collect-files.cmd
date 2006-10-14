@@ -41,7 +41,7 @@ goto end
 
 
 :collect_svn_libs
-for /D %%i in (%wc_dir_svn%\Release\subversion\*) do (
+for /D %%i in (%wc_dir_svn%\Release\subversion\libsvn_*) do (
   call :collect_files %%i %lib_dir%\lib *.lib
   if defined build_errorlevel goto end_after_error
 )
