@@ -1,4 +1,5 @@
 #include "SvnFieldLoader.h"
+#include "SvnFieldLoader__Parameters.h"
 #include "SvnFieldLoader__EntryCache.h"
 #include "ContentFieldSvnRevision.h"
 #include "ContentFieldSvnCmtAuthor.h"
@@ -24,6 +25,8 @@
 #include "svn_pools.h"
 #include "svn_path.h"
 #include "svn_client.h"
+
+#define INITIAL_FIELD_ARRAY_SIZE 30
 
 struct SvnFieldLoaderStatusBaton
 {
@@ -58,10 +61,11 @@ CSvnFieldLoader::CSvnFieldLoader() :
 	m_oPool(),
 	m_pFields(NULL),
 	m_pClientCtx(NULL),
+	m_pParams(NULL),
 	m_pLastEntry(NULL)
 {
 	SVN_EX(svn_client_create_context(&m_pClientCtx, m_oPool));
-	createDefaultContentFields();
+	emptyContentFields(0);
 }
 
 CSvnFieldLoader::~CSvnFieldLoader()
@@ -69,6 +73,11 @@ CSvnFieldLoader::~CSvnFieldLoader()
 	if (m_pLastEntry)
 	{
 		delete m_pLastEntry;
+	}
+
+	if (m_pParams)
+	{
+		delete m_pParams;
 	}
 }
 
@@ -89,7 +98,15 @@ size_t CSvnFieldLoader::getFieldCount() const
 
 void CSvnFieldLoader::initParameters(const ContentDefaultParamStruct& sParams)
 {
-	// parse INI file
+	if (m_pParams)
+	{
+		delete m_pParams;
+	}
+
+	m_pParams = new CParameters(sParams);
+
+	emptyContentFields(INITIAL_FIELD_ARRAY_SIZE);
+	appendDefaultContentFields();
 }
 
 CContentFieldSvn* CSvnFieldLoader::getField(int iIdx)
@@ -102,11 +119,22 @@ void CSvnFieldLoader::appendField(CContentFieldSvn* pField)
 	APR_ARRAY_APPEND(m_pFields, pField, CContentFieldSvn*);
 }
 
-void CSvnFieldLoader::createDefaultContentFields()
+void CSvnFieldLoader::emptyContentFields(int iInitialArrayLen)
 {
-	m_pFields = apr_array_make(svn_pool_create(m_oPool), 25, sizeof (CContentFieldSvn*));
+	apr_pool_t* pPool;
+
+	if (!m_pFields)
+	{
+		pPool = svn_pool_create(m_oPool);
+	}
+	else
+	{
+		pPool = m_pFields->pool;
+		svn_pool_clear(pPool);
+	}
+
+	m_pFields = apr_array_make(pPool, iInitialArrayLen, sizeof (CContentFieldSvn*));
 	apr_pool_cleanup_register(m_pFields->pool, m_pFields, cleanupFieldArray, NULL);
-	appendDefaultContentFields();
 }
 
 void CSvnFieldLoader::appendDefaultContentFields()
@@ -202,3 +230,5 @@ svn_wc_status2_t* CSvnFieldLoader::dupEntry(svn_wc_status2_t* pEntry, apr_pool_t
 {
 	return pEntry ? svn_wc_dup_status2(pEntry, pPool) : NULL;
 }
+
+#undef INITIAL_FIELD_ARRAY_SIZE

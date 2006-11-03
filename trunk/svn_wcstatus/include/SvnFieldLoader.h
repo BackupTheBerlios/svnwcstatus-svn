@@ -16,6 +16,7 @@ struct svn_client_ctx_t;
 class CSvnFieldLoader : public CFieldLoader
 {
 public:
+	class CParameters;
 	class CEntryCache;
 
 	CSvnFieldLoader();
@@ -35,12 +36,13 @@ private:
 	apr_array_header_t* m_pFields;
 	svn_client_ctx_t* m_pClientCtx;
 
+	CParameters* m_pParams;
 	CEntryCache* m_pLastEntry;
 
 	CContentFieldSvn* getField(int iIdx);
 	void appendField(CContentFieldSvn* pField);
 
-	void createDefaultContentFields();
+	void emptyContentFields(int iInitialArrayLen);
 	void appendDefaultContentFields();
 
 	static svn_wc_status2_t* dupEntry(svn_wc_status2_t* pEntry, apr_pool_t* pPool);
