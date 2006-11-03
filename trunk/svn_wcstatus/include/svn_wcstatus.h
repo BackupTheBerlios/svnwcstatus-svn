@@ -23,4 +23,10 @@
 #define MODULE_NAME PLUGIN_NAME ".wdx"
 #endif
 
+#define APR_ARRAY_GET(array, idx, type) \
+	(*reinterpret_cast<type*>(array->elts + (array->elt_size * idx)));
+
+#define APR_ARRAY_APPEND(array, value, type) \
+	(*static_cast<type*>(apr_array_push(array)) = value);
+
 #endif

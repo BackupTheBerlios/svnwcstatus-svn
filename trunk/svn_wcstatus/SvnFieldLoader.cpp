@@ -48,7 +48,7 @@ static int cleanupFieldArray(void* pData)
 
 	for (int i = 0; i < pArray->nelts; ++i)
 	{
-		delete *reinterpret_cast<CContentFieldSvn**>(pArray->elts + (pArray->elt_size * i));
+		delete APR_ARRAY_GET(pArray, i, CContentFieldSvn*);
 	}
 
 	return APR_SUCCESS;
@@ -94,12 +94,12 @@ void CSvnFieldLoader::initParameters(const ContentDefaultParamStruct& sParams)
 
 CContentFieldSvn* CSvnFieldLoader::getField(int iIdx)
 {
-	return *reinterpret_cast<CContentFieldSvn**>(m_pFields->elts + (m_pFields->elt_size * iIdx));
+	return APR_ARRAY_GET(m_pFields, iIdx, CContentFieldSvn*);
 }
 
 void CSvnFieldLoader::appendField(CContentFieldSvn* pField)
 {
-	*static_cast<CContentFieldSvn**>(apr_array_push(m_pFields)) = pField;
+	APR_ARRAY_APPEND(m_pFields, pField, CContentFieldSvn*);
 }
 
 void CSvnFieldLoader::createDefaultContentFields()
