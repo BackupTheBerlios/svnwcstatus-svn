@@ -7,28 +7,16 @@
 
 static CFieldLoader* g_pLoader;
 
-static bool dllProcessAttach()
+static bool dllProcessAttach(HINSTANCE hInstDll)
 {
-	HMODULE hModule = GetModuleHandle(MODULE_NAME);
-
-	if (!hModule)
+	if (!hInstDll)
 		return false;
 
-	if (!DisableThreadLibraryCalls(hModule))
+	if (!DisableThreadLibraryCalls(hInstDll))
 		return false;
 
 	if (apr_initialize() != APR_SUCCESS)
 		return false;
-
-	try
-	{
-		g_pLoader = new CSvnFieldLoader();
-	}
-	catch (...)
-	{
-		apr_terminate();
-		return false;
-	}
 
 	return true;
 }
@@ -40,12 +28,12 @@ static bool dllProcessDetach()
 	return true;
 }
 
-BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HINSTANCE hInstDll, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		return dllProcessAttach() ? TRUE : FALSE;
+		return dllProcessAttach(hInstDll) ? TRUE : FALSE;
 
 	case DLL_PROCESS_DETACH:
 		return dllProcessDetach() ? TRUE : FALSE;
