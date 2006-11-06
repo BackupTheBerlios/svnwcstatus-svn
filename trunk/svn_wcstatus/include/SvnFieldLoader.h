@@ -19,13 +19,11 @@ public:
 	class CParameters;
 	class CEntryCache;
 
-	CSvnFieldLoader();
+	CSvnFieldLoader(const ContentDefaultParamStruct& sParams);
 	virtual ~CSvnFieldLoader();
 
 	virtual CContentField& getFieldByIndex(int iIdx);
 	virtual size_t getFieldCount() const;
-
-	virtual void initParameters(const ContentDefaultParamStruct& sParams);
 
 	svn_wc_status2_t* getStatusForPath(const char* pchPath, apr_pool_t* pPool);
 

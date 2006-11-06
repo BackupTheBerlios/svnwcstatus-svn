@@ -57,15 +57,17 @@ static int cleanupFieldArray(void* pData)
 	return APR_SUCCESS;
 }
 
-CSvnFieldLoader::CSvnFieldLoader() :
+CSvnFieldLoader::CSvnFieldLoader(const ContentDefaultParamStruct& sParams) :
 	m_oPool(),
 	m_pFields(NULL),
 	m_pClientCtx(NULL),
-	m_pParams(NULL),
+	m_pParams(new CParameters(sParams)),
 	m_pLastEntry(NULL)
 {
 	SVN_EX(svn_client_create_context(&m_pClientCtx, m_oPool));
-	emptyContentFields(0);
+
+	emptyContentFields(INITIAL_FIELD_ARRAY_SIZE);
+	appendDefaultContentFields();
 }
 
 CSvnFieldLoader::~CSvnFieldLoader()
@@ -94,19 +96,6 @@ CContentField& CSvnFieldLoader::getFieldByIndex(int iIdx)
 size_t CSvnFieldLoader::getFieldCount() const
 {
 	return m_pFields ? m_pFields->nelts : 0;
-}
-
-void CSvnFieldLoader::initParameters(const ContentDefaultParamStruct& sParams)
-{
-	if (m_pParams)
-	{
-		delete m_pParams;
-	}
-
-	m_pParams = new CParameters(sParams);
-
-	emptyContentFields(INITIAL_FIELD_ARRAY_SIZE);
-	appendDefaultContentFields();
 }
 
 CContentFieldSvn* CSvnFieldLoader::getField(int iIdx)

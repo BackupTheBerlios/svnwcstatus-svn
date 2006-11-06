@@ -78,6 +78,6 @@ int __stdcall ContentGetValue(char* pchPath, int iFieldIdx, int iUnitIdx, void* 
 
 void __stdcall ContentSetDefaultParams(ContentDefaultParamStruct* psParams)
 {
-	if (psParams)
-		g_pLoader->initParameters(*psParams);
+	if (g_pLoader) delete g_pLoader;
+	g_pLoader = new CSvnFieldLoader(*psParams);
 }
