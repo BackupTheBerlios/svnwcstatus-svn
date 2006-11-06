@@ -23,7 +23,7 @@ static bool dllProcessAttach(HINSTANCE hInstDll)
 
 static bool dllProcessDetach()
 {
-	delete g_pLoader;
+	if (g_pLoader) delete g_pLoader;
 	apr_terminate();
 	return true;
 }
