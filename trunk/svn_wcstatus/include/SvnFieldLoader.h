@@ -17,7 +17,7 @@ class CSvnFieldLoader : public CFieldLoader
 {
 public:
 	class CParameters;
-	class CEntryCache;
+	class CEntryCache; friend class CEntryCache;
 
 	CSvnFieldLoader(const ContentDefaultParamStruct& sParams);
 	virtual ~CSvnFieldLoader();
@@ -36,6 +36,8 @@ private:
 
 	CParameters* m_pParams;
 	CEntryCache* m_pLastEntry;
+
+	CEntryCache* getCacheForPath(const char* pchPath);
 
 	CContentFieldSvn* getField(int iIdx);
 	void appendField(CContentFieldSvn* pField);

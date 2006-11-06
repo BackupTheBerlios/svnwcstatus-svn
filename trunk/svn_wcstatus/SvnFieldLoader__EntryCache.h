@@ -6,29 +6,34 @@
 struct apr_pool_t;
 struct apr_hash_t;
 struct svn_wc_status2_t;
+struct svn_wc_adm_access_t;
 
 class CSvnFieldLoader::CEntryCache
 {
 public:
-	CEntryCache(const char* pchPath);
+	CEntryCache(CSvnFieldLoader& oParent, const char* pchPath);
 	~CEntryCache();
-
-	static CEntryCache* pcreate(apr_pool_t* pPool, const char* pchPath);
 
 	const char* getPath() const;
 	bool isPath(const char* pchPath) const;
-	svn_wc_status2_t* getEntry(const char* pchEntryName) const;
 
-	void putEntry(svn_wc_status2_t* pEntry, const char* pchName);
+	svn_wc_status2_t* getStatus(const char* pchEntryName);
 
-	void clear(const char* pchNewPath);
+	CEntryCache* switchPath(const char* pchNewPath);
 
 private:
-	CEntryCache(apr_pool_t* pParent, const char* pchPath);
-
-	apr_pool_t* m_pPool;
+	CSvnPool m_oPool;
+	CSvnFieldLoader& m_oParent;
 	const char* m_pchPath;
-	apr_hash_t* m_pEntries;
+	svn_wc_adm_access_t* m_pAdm;
+	apr_hash_t* m_pStatuses;
+
+	svn_wc_adm_access_t* getAdm();
+	apr_hash_t* getStatuses();
+
+	void openAdm();
+	svn_wc_adm_access_t* openAdmFor(const char* pchPath, int iDepth, apr_pool_t* pPool);
+	void collectStatuses();
 };
 
 #endif
