@@ -94,11 +94,11 @@ void CSvnFieldLoader::CParameters::writeNewIniFile() const
 	apr_size_t nWritten;
 
 	SVN_EX(svn_io_file_open(&pFile, m_pchIniFilePath ,
-		                    (APR_WRITE | APR_CREATE | APR_EXCL),
-		                    APR_OS_DEFAULT, oPool));
+	                        (APR_WRITE | APR_CREATE | APR_EXCL),
+	                        APR_OS_DEFAULT, oPool));
 
 	SVN_EX(svn_io_file_write_full(pFile, pchContents, strlen(pchContents),
-		                          &nWritten, oPool));
+	                              &nWritten, oPool));
 
 	SVN_EX(svn_io_file_close(pFile, oPool));
 }
@@ -152,10 +152,11 @@ bool CSvnFieldLoader::CParameters::shouldTweakExternalStatus() const
 
 void CSvnFieldLoader::CParameters::clearParamCache()
 {
-	apr_pool_t* pNewPool = svn_pool_create(NULL);
-	m_pchIniFilePath = apr_pstrdup(pNewPool, m_pchIniFilePath);
+	char* pchTmpIniPath = strdup(m_pchIniFilePath);
+	m_oPool.clear();
+	m_pchIniFilePath = apr_pstrdup(m_oPool, pchTmpIniPath);
+	free(pchTmpIniPath);
 
 	m_bTweakExtStatuses = false;
-
-	svn_pool_destroy(m_oPool.replace(pNewPool));
+	m_pProps = NULL;
 }
