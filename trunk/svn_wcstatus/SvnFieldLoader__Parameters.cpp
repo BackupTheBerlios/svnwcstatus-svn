@@ -48,7 +48,7 @@ void CSvnFieldLoader::CParameters::determineIniFilePath(const char* pchIniFilePa
 		if (apr_filepath_merge(&pchFile, pchDir, INI_FILE_NAME,
 		                       (APR_FILEPATH_NOTRELATIVE |
 		                       APR_FILEPATH_TRUENAME),
-						       oSubpool) != APR_SUCCESS)
+		                       oSubpool) != APR_SUCCESS)
 		{
 			throw new CSvnEx(NULL);
 		}
