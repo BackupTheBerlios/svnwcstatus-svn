@@ -22,6 +22,8 @@ public:
 	CEntryCache* switchPath(const char* pchNewPath);
 
 private:
+	class CStatusWalker; friend class CStatusWalker;
+
 	CSvnPool m_oPool;
 	CSvnFieldLoader& m_oParent;
 	const char* m_pchPath;
@@ -34,6 +36,8 @@ private:
 	void openAdm();
 	svn_wc_adm_access_t* openAdmFor(const char* pchPath, int iDepth, apr_pool_t* pPool);
 	void collectStatuses();
+
+	void makeExternalStatus(svn_wc_status2_t*& pStatus, const char* pchPath, apr_pool_t* pStatusPool, apr_pool_t* pTempPool);
 };
 
 #endif

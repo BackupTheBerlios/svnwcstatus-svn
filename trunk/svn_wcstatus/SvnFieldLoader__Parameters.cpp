@@ -16,7 +16,8 @@
 
 CSvnFieldLoader::CParameters::CParameters(const ContentDefaultParamStruct& sParams) :
 	m_oPool(),
-	m_pchIniFilePath(NULL)
+	m_pchIniFilePath(NULL),
+	m_bTweakExtStatuses(false)
 {
 	determineIniFilePath(sParams.DefaultIniName);
 
@@ -24,6 +25,7 @@ CSvnFieldLoader::CParameters::CParameters(const ContentDefaultParamStruct& sPara
 	if (m_pchIniFilePath)
 	{
 		checkIniFile();
+		readGeneralSettings();
 	}
 }
 
@@ -83,11 +85,10 @@ void CSvnFieldLoader::CParameters::writeNewIniFile() const
 	CSvnPool oPool;
 
 	const char * const pchContents =
-		"; This is the configuration file for the Total Commander Content PlugIn " PLUGIN_NAME "."
+		"; This is the configuration file for the Total Commander Content PlugIn " PLUGIN_NAME "." APR_EOL_STR
 		APR_EOL_STR
-		APR_EOL_STR
-		"[" INI_SECT_GENERAL "]"
-		APR_EOL_STR;
+		"[" INI_SECT_GENERAL "]" APR_EOL_STR
+		";" INI_KEY_GENERAL_TWEAK_EXT_STATUSES "=yes" APR_EOL_STR;
 
 	apr_file_t* pFile;
 	apr_size_t nWritten;
@@ -102,7 +103,7 @@ void CSvnFieldLoader::CParameters::writeNewIniFile() const
 	SVN_EX(svn_io_file_close(pFile, oPool));
 }
 
-apr_hash_t* CSvnFieldLoader::CParameters::readIniSect(const char* pchIniSectName)
+apr_hash_t* CSvnFieldLoader::CParameters::readIniSect(const char* pchIniSectName, apr_pool_t* pPool)
 {
 	// XXX error handling?
 
@@ -111,7 +112,8 @@ apr_hash_t* CSvnFieldLoader::CParameters::readIniSect(const char* pchIniSectName
 	                                        sizeof (achSectData),
 	                                        m_pchIniFilePath);
 
-	apr_hash_t* pSect = apr_hash_make(m_oPool);
+	apr_hash_t* pSect = apr_hash_make(pPool);
+	apr_pool_t* pSectPool = apr_hash_pool_get(pSect);
 
 	for (char* pchCur = achSectData; *pchCur; ++pchCur)
 	{
@@ -121,8 +123,8 @@ apr_hash_t* CSvnFieldLoader::CParameters::readIniSect(const char* pchIniSectName
 			int iKeyLen = pchOffset - pchCur;
 			if (iKeyLen > 0)
 			{
-				const char* pchKey = apr_pstrndup(m_oPool, pchCur, iKeyLen);
-				const char* pchValue = apr_pstrdup(m_oPool, pchOffset + 1 ? pchOffset + 1 : "");
+				const char* pchKey = apr_pstrndup(pSectPool, pchCur, iKeyLen);
+				const char* pchValue = apr_pstrdup(pSectPool, pchOffset + 1 ? pchOffset + 1 : "");
 				apr_hash_set(pSect, pchKey, APR_HASH_KEY_STRING, pchValue);
 			}
 		}
@@ -133,10 +135,27 @@ apr_hash_t* CSvnFieldLoader::CParameters::readIniSect(const char* pchIniSectName
 	return pSect;
 }
 
+void CSvnFieldLoader::CParameters::readGeneralSettings()
+{
+	CSvnPool oTempPool;
+	apr_hash_t* pGeneral = readIniSect(INI_SECT_GENERAL, oTempPool);
+
+	const char* pchVal = static_cast<const char*>(
+		apr_hash_get(pGeneral, INI_KEY_GENERAL_TWEAK_EXT_STATUSES, APR_HASH_KEY_STRING));
+	m_bTweakExtStatuses = pchVal && apr_strnatcasecmp(pchVal, "yes") == 0 ? true : false;
+}
+
+bool CSvnFieldLoader::CParameters::shouldTweakExternalStatus() const
+{
+	return m_bTweakExtStatuses;
+}
+
 void CSvnFieldLoader::CParameters::clearParamCache()
 {
 	apr_pool_t* pNewPool = svn_pool_create(NULL);
 	m_pchIniFilePath = apr_pstrdup(pNewPool, m_pchIniFilePath);
+
+	m_bTweakExtStatuses = false;
 
 	svn_pool_destroy(m_oPool.replace(pNewPool));
 }

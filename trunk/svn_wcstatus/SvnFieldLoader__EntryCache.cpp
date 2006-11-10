@@ -1,4 +1,5 @@
 #include "SvnFieldLoader__EntryCache.h"
+#include "SvnFieldLoader__Parameters.h"
 
 #include "apr_tables.h"
 #include "apr_hash.h"
@@ -7,10 +8,13 @@
 #include "svn_wc.h"
 #include "svn_client.h"
 
-class CStatusWalker
+class CSvnFieldLoader::CEntryCache::CStatusWalker
 {
 public:
-	CStatusWalker(apr_hash_t* pStatuses) :
+	CStatusWalker(CEntryCache* pCaller, apr_hash_t* pStatuses, bool bTweakExtStatus) :
+		m_oTempPool(),
+		m_pCaller(pCaller),
+		m_bTweakExtStatuses(bTweakExtStatus),
 		m_pStatuses(pStatuses)
 	{
 	}
@@ -29,7 +33,14 @@ private:
 		apr_pool_t* pStatusPool = apr_hash_pool_get(m_pStatuses);
 		const char* pchBaseName = svn_path_basename(pchInternalFile, pStatusPool);
 
-		pStatus = svn_wc_dup_status2(pStatus, pStatusPool);
+		if (m_bTweakExtStatuses && pStatus->text_status == svn_wc_status_external)
+		{
+			m_pCaller->makeExternalStatus(pStatus, pchPath, pStatusPool, m_oTempPool);
+		}
+		else
+		{
+			pStatus = svn_wc_dup_status2(pStatus, pStatusPool);
+		}
 
 		apr_hash_set(m_pStatuses, apr_pstrdup(pStatusPool, pchBaseName), APR_HASH_KEY_STRING, pStatus);
 
@@ -38,6 +49,8 @@ private:
 
 private:
 	CSvnPool m_oTempPool;
+	CEntryCache* m_pCaller;
+	bool m_bTweakExtStatuses;
 	apr_hash_t* m_pStatuses;
 };
 
@@ -123,7 +136,7 @@ void CSvnFieldLoader::CEntryCache::collectStatuses()
 
 	CSvnPool oStatusPool(m_oPool);
 	apr_hash_t* pStatuses = apr_hash_make(oStatusPool);
-	CStatusWalker oWalker(pStatuses);
+	CStatusWalker oWalker(this, pStatuses, m_oParent.m_pParams->shouldTweakExternalStatus());
 
 	const svn_delta_editor_t *pEditor;
 	void* pEditBaton;
@@ -141,4 +154,11 @@ void CSvnFieldLoader::CEntryCache::collectStatuses()
 	// store results and don't destroy oStatusPool
 	m_pStatuses = pStatuses;
 	oStatusPool.release();
+}
+
+void CSvnFieldLoader::CEntryCache::makeExternalStatus(svn_wc_status2_t*& pStatus, const char* pchPath, apr_pool_t* pStatusPool, apr_pool_t* pTempPool)
+{
+	svn_wc_adm_access_t* pExtAdm = openAdmFor(pchPath, 0, pTempPool);
+	SVN_EX(svn_wc_status2(&pStatus, pchPath, pExtAdm, pStatusPool));
+	pStatus->text_status = svn_wc_status_external;
 }
