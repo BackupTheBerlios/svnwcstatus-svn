@@ -42,7 +42,7 @@ if errorlevel 1 (
   echo Could not execute build configuration file.
   echo File is %conf_file%
   goto error
-)
+) else echo Configuraton has been successfully read from %conf_file%
 goto end
 
 rem ###########################################################################
