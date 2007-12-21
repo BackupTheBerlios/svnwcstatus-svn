@@ -15,7 +15,7 @@ if exist "%wc_dir%\.svn" (
   set svn_cmd=co %svn_url%
 )
 
-set cmdline=%exec_svn% %svn_cmd% "%wc_dir%"
+set cmdline="%exec_svn%" %svn_cmd% "%wc_dir%"
 %cmdline%
 if errorlevel 1 (
   echo Subversion command failed:
