@@ -1,7 +1,8 @@
 @echo off
 
 setlocal
-pushd "%~dp1\build"
+set build_dir=%~dp1\build
+pushd "%build_dir%"
 
 call import-conf.cmd "%~dp1"
 if defined build_errorlevel goto error

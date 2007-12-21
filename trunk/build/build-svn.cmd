@@ -11,9 +11,51 @@ if defined build_errorlevel goto error
 call svn.cmd %wc_dir_neon% %rep_url_neon%
 if defined build_errorlevel goto error
 
+rem fetch zlib
+if not exist "%zlib_dir%" (
+  echo Creating zlib directory %zlib_dir%
+  md "%zlib_dir%"
+  if errorlevel 1 (
+    set build_errorlevel=%ERRORLEVEL%
+    goto error
+  )
+)
+
+pushd "%zlib_dir%"
+if errorlevel 1 (
+  set build_errorlevel=%ERRORLEVEL%
+  echo Could not change into zlib directory %zlib_dir%
+  goto error
+)
+
+if not exist zlib.h (
+  if not exist zlib123.zip (
+    wget http://www.zlib.net/zlib123.zip
+    if errorlevel 1 (
+      set build_errorlevel=%ERRORLEVEL%
+      echo Could not download zlib from http://www.zlib.net/zlib123.zip
+      popd
+      goto error
+    )
+  )
+  
+  if not exist zlib.h (
+    "%build_dir%\unzip.exe" zlib123.zip
+    if errorlevel 1 (
+      set build_errorlevel=%ERRORLEVEL%
+      echo Could not unpack zlib from zlib123.zip
+      popd
+      goto error
+    )
+  )
+)
+popd
+
+if errorlevel 1 goto error
 
 call "%exec_msdev_env%"
 if errorlevel 1 (
+  set build_errorlevel=%ERRORLEVEL%
   echo Could not execute Visual Studio build environment.
   echo Build environment file was %exec_msdev_env%
   goto error
@@ -21,7 +63,16 @@ if errorlevel 1 (
 
 rem +++ enter svn dir +++
 
-if not exist "%wc_dir_svn%\nul" md "%wc_dir_svn%"
+if not exist "%wc_dir_svn%" (
+  echo Creating Subversion working copy %wc_dir_svn%
+  md "%wc_dir_svn%"
+  if errorlevel 1 (
+    set build_errorlevel=%ERRORLEVEL%
+    echo Subversion working copy could not be created.
+    goto error
+  )
+)
+
 pushd "%wc_dir_svn%"
 if errorlevel 1 (
   set build_errorlevel=%ERRORLEVEL%
@@ -30,7 +81,7 @@ if errorlevel 1 (
   goto error
 )
 
-gen-make.py %svn_gen_make_opts%
+python gen-make.py %svn_gen_make_opts%
 if errorlevel 1 (
   set build_errorlevel=%ERRORLEVEL%
   echo Subversion configure failed.
