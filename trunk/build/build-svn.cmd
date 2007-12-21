@@ -20,7 +20,16 @@ if errorlevel 1 (
 )
 
 rem +++ enter svn dir +++
-pushd %wc_dir_svn%
+
+if not exist "%wc_dir_svn%\nul" md "%wc_dir_svn%"
+pushd "%wc_dir_svn%"
+if errorlevel 1 (
+  set build_errorlevel=%ERRORLEVEL%
+  echo Subversion working copy directory does not exist.
+  echo Subversion working copy directory is %wc_dir_svn%
+  goto error
+)
+
 gen-make.py %svn_gen_make_opts%
 if errorlevel 1 (
   set build_errorlevel=%ERRORLEVEL%
