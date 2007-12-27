@@ -3,6 +3,7 @@
 setlocal
 set build_dir=%~dp1\build
 pushd "%build_dir%"
+if not exist gunzip.exe copy gzip.exe gunzip.exe > nul
 
 call import-conf.cmd "%~dp1"
 if defined build_errorlevel goto error
