@@ -150,6 +150,14 @@ SOURCE=.\ContentFieldSvnMultiChoice.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\ContentFieldSvnPresentProps.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ContentFieldSvnProp.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ContentFieldSvnPropTime.cpp
 # End Source File
 # Begin Source File
@@ -319,6 +327,14 @@ SOURCE=.\include\ContentFieldSvnLockToken.h
 # Begin Source File
 
 SOURCE=.\include\ContentFieldSvnMultiChoice.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnPresentProps.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\ContentFieldSvnProp.h
 # End Source File
 # Begin Source File
 

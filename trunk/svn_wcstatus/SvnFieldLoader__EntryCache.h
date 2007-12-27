@@ -36,6 +36,7 @@ public:
 	bool isPath(const char* pchPath) const;
 
 	svn_wc_status2_t* getStatus(const char* pchEntryName);
+	apr_hash_t* getProps(const char* pchEntryName);
 
 	CEntryCache* switchPath(const char* pchNewPath);
 
@@ -47,13 +48,16 @@ private:
 	const char* m_pchPath;
 	svn_wc_adm_access_t* m_pAdm;
 	apr_hash_t* m_pStatuses;
+	apr_hash_t* m_pProps;
 
 	svn_wc_adm_access_t* getAdm();
 	apr_hash_t* getStatuses();
+	apr_hash_t* getProps();
 
 	void openAdm();
 	svn_wc_adm_access_t* openAdmFor(const char* pchPath, int iDepth, apr_pool_t* pPool);
 	void collectStatuses();
+	void collectProps();
 
 	void makeExternalStatus(svn_wc_status2_t*& pStatus, const char* pchPath, apr_pool_t* pStatusPool, apr_pool_t* pTempPool);
 };

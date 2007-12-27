@@ -39,6 +39,8 @@
 #include "ContentFieldSvnLockOwner.h"
 #include "ContentFieldSvnLockComment.h"
 #include "ContentFieldSvnLockCreationDate.h"
+#include "ContentFieldSvnPresentProps.h"
+#include "ContentFieldSvnProp.h"
 
 #include "svn_pools.h"
 #include "svn_path.h"
@@ -69,6 +71,7 @@ CSvnFieldLoader::CSvnFieldLoader(const ContentDefaultParamStruct& sParams) :
 
 	emptyContentFields(INITIAL_FIELD_ARRAY_SIZE);
 	appendDefaultContentFields();
+	appendDynamicContentFields();
 }
 
 CSvnFieldLoader::~CSvnFieldLoader()
@@ -150,6 +153,26 @@ void CSvnFieldLoader::appendDefaultContentFields()
 	appendField(new CContentFieldSvnLockOwner(*this));
 	appendField(new CContentFieldSvnLockComment(*this));
 	appendField(new CContentFieldSvnLockCreationDate(*this));
+	appendField(new CContentFieldSvnPresentProps(*this));
+}
+
+void CSvnFieldLoader::appendDynamicContentFields()
+{
+	CSvnPool oPool;
+	apr_hash_t* pProps = m_pParams->getProps();
+
+	if (!pProps)
+		return;
+
+	for (apr_hash_index_t* pIdx = apr_hash_first(oPool, pProps); pIdx; pIdx = apr_hash_next(pIdx))
+	{
+		const char* pchPropName;
+		char* pchFieldName;
+		int iSize = 0;
+
+		apr_hash_this(pIdx, reinterpret_cast<const void**>(&pchPropName), &iSize, reinterpret_cast<void**>(&pchFieldName));
+		appendField(new CContentFieldSvnProp(*this, pchPropName, pchFieldName));
+	}
 }
 
 CSvnFieldLoader::CEntryCache* CSvnFieldLoader::getCacheForPath(const char* pchPath)
@@ -172,6 +195,21 @@ svn_wc_status2_t* CSvnFieldLoader::getStatusForPath(const char* pchPath, apr_poo
 	}
 
 	return getCacheForPath(svn_path_dirname(pchInternalPath, oSubpool))->getStatus(pchBaseName);
+}
+
+apr_hash_t* CSvnFieldLoader::getPropsForPath(const char* pchPath, apr_pool_t* pPool)
+{
+	CSvnPool oSubpool;
+
+	const char* pchInternalPath = svn_path_internal_style(pchPath, oSubpool);
+	const char* pchBaseName = svn_path_basename(pchInternalPath, oSubpool);
+
+	if (svn_wc_is_adm_dir(pchBaseName, oSubpool))
+	{
+		return NULL;
+	}
+
+	return getCacheForPath(svn_path_dirname(pchInternalPath, oSubpool))->getProps(pchBaseName);
 }
 
 void CSvnFieldLoader::aprTimeToFileTime(apr_time_t nTime, FILETIME& ftTime) const

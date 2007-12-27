@@ -77,7 +77,8 @@ CSvnFieldLoader::CEntryCache::CEntryCache(CSvnFieldLoader& oParent, const char* 
 	m_oParent(oParent),
 	m_pchPath(apr_pstrdup(m_oPool, pchPath)),
 	m_pAdm(NULL),
-	m_pStatuses(NULL)
+	m_pStatuses(NULL),
+	m_pProps(NULL)
 {
 }
 
@@ -96,6 +97,12 @@ apr_hash_t* CSvnFieldLoader::CEntryCache::getStatuses()
 	return m_pStatuses;
 }
 
+apr_hash_t* CSvnFieldLoader::CEntryCache::getProps()
+{
+	if (!m_pProps) collectProps();
+	return m_pProps;
+}
+
 svn_wc_adm_access_t* CSvnFieldLoader::CEntryCache::getAdm()
 {
 	if (!m_pAdm) openAdm();
@@ -110,6 +117,11 @@ bool CSvnFieldLoader::CEntryCache::isPath(const char* pchPath) const
 svn_wc_status2_t* CSvnFieldLoader::CEntryCache::getStatus(const char* pchEntryName)
 {
 	return static_cast<svn_wc_status2_t*>(apr_hash_get(getStatuses(), pchEntryName, APR_HASH_KEY_STRING));
+}
+
+apr_hash_t* CSvnFieldLoader::CEntryCache::getProps(const char* pchEntryName)
+{
+	return static_cast<apr_hash_t*>(apr_hash_get(getProps(), pchEntryName, APR_HASH_KEY_STRING));
 }
 
 CSvnFieldLoader::CEntryCache* CSvnFieldLoader::CEntryCache::switchPath(const char* pchNewPath)
@@ -129,6 +141,7 @@ CSvnFieldLoader::CEntryCache* CSvnFieldLoader::CEntryCache::switchPath(const cha
 
 	m_pAdm = NULL;
 	m_pStatuses = NULL;
+	m_pProps = NULL;
 
 	return this;
 }
@@ -172,6 +185,35 @@ void CSvnFieldLoader::CEntryCache::collectStatuses()
 	// store results and don't destroy oStatusPool
 	m_pStatuses = pStatuses;
 	oStatusPool.release();
+}
+
+void CSvnFieldLoader::CEntryCache::collectProps()
+{
+	CSvnPool oTempPool;
+	svn_wc_adm_access_t* pAdm = getAdm();
+	apr_hash_t* pEntries;
+
+	SVN_EX(svn_wc_entries_read(&pEntries, pAdm, FALSE, oTempPool));
+
+	CSvnPool oPropsPool(m_oPool);
+	apr_hash_t* pProps = apr_hash_make(oPropsPool);
+
+	for (apr_hash_index_t* pIdx = apr_hash_first(oTempPool, pEntries); pIdx; pIdx = apr_hash_next(pIdx))
+	{
+		const char* pchEntryName;
+		apr_hash_t* pThisProps;
+
+		apr_hash_this(pIdx, reinterpret_cast<const void**>(&pchEntryName), NULL, NULL);
+
+		if (apr_strnatcmp(pchEntryName, SVN_WC_ENTRY_THIS_DIR) == 0) continue;
+
+		SVN_EX(svn_wc_prop_list(&pThisProps, svn_path_join(m_pchPath, pchEntryName, oTempPool), pAdm, oPropsPool));
+		apr_hash_set(pProps, pchEntryName, APR_HASH_KEY_STRING, pThisProps);
+	}
+
+	// store results and don't destroy oPropsPool
+	m_pProps = pProps;
+	oPropsPool.release();
 }
 
 void CSvnFieldLoader::CEntryCache::makeExternalStatus(svn_wc_status2_t*& pStatus, const char* pchPath, apr_pool_t* pStatusPool, apr_pool_t* pTempPool)

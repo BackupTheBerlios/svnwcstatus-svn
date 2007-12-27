@@ -19,6 +19,8 @@
 #ifndef __TW_WDX_SVN_WCSTATUS_SVNFIELDLOADER__
 #define __TW_WDX_SVN_WCSTATUS_SVNFIELDLOADER__
 
+#include "svn_wcstatus.h"
+
 #include "FieldLoader.h"
 
 #include "SvnPool.h"
@@ -28,6 +30,7 @@
 class CContentFieldSvn;
 
 struct apr_array_header_t;
+struct apr_hash_t;
 struct svn_wc_status2_t;
 struct svn_client_ctx_t;
 
@@ -44,6 +47,7 @@ public:
 	virtual size_t getFieldCount() const;
 
 	svn_wc_status2_t* getStatusForPath(const char* pchPath, apr_pool_t* pPool);
+	apr_hash_t* getPropsForPath(const char* pchPath, apr_pool_t* pPool);
 
 	void aprTimeToFileTime(apr_time_t nTime, FILETIME& ftTime) const;
 
@@ -62,8 +66,11 @@ private:
 
 	void emptyContentFields(int iInitialArrayLen);
 	void appendDefaultContentFields();
+	void appendDynamicContentFields();
 
-	static svn_wc_status2_t* dupEntry(svn_wc_status2_t* pEntry, apr_pool_t* pPool);
+	void clearContentFields();
+
+	// static svn_wc_status2_t* dupEntry(svn_wc_status2_t* pEntry, apr_pool_t* pPool);
 };
 
 #endif

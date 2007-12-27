@@ -16,40 +16,23 @@
  * along with svn_wcstatus. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __TW_WDX_SVN_WCSTATUS_SVNFIELDLOADER__PARAMETERS__
-#define __TW_WDX_SVN_WCSTATUS_SVNFIELDLOADER__PARAMETERS__
+#ifndef __TW_WDX_SVN_WCSTATUS_CONTENTFIELDSVNPRESENTPROPS__
+#define __TW_WDX_SVN_WCSTATUS_CONTENTFIELDSVNPRESENTPROPS__
 
-#include "SvnFieldLoader.h"
+#include "svn_wcstatus.h"
 
-#include "SvnPool.h"
+#include "ContentFieldSvn.h"
 
-struct apr_hash_t;
-
-class CSvnFieldLoader::CParameters
+class CContentFieldSvnPresentProps : public CContentFieldSvn
 {
 public:
-	CParameters(const ContentDefaultParamStruct& sParams);
-	virtual ~CParameters();
+	CContentFieldSvnPresentProps(CSvnFieldLoader& oLoader);
+	virtual ~CContentFieldSvnPresentProps();
+	
+	virtual const char* getName() const;
+	virtual int getType() const;
 
-	bool shouldTweakExternalStatus() const;
-
-	apr_hash_t* getProps();
-
-	void clearParamCache();
-
-private:
-	CSvnPool m_oPool;
-	const char* m_pchIniFilePath;
-	bool m_bTweakExtStatuses;
-	apr_hash_t* m_pProps;
-
-	void determineIniFilePath(const char* pchIniFilePathTc);
-	void checkIniFile();
-	void writeNewIniFile() const;
-
-	void readGeneralSettings();
-
-	apr_hash_t* readIniSect(const char* pchIniSectName, apr_pool_t* pPool);
+	virtual CContentInstance* getInstance(const char* pchPath);
 };
 
 #endif

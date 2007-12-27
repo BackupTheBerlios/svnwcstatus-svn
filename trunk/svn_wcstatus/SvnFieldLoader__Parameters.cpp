@@ -35,7 +35,8 @@
 CSvnFieldLoader::CParameters::CParameters(const ContentDefaultParamStruct& sParams) :
 	m_oPool(),
 	m_pchIniFilePath(NULL),
-	m_bTweakExtStatuses(false)
+	m_bTweakExtStatuses(false),
+	m_pProps(NULL)
 {
 	determineIniFilePath(sParams.DefaultIniName);
 
@@ -44,6 +45,7 @@ CSvnFieldLoader::CParameters::CParameters(const ContentDefaultParamStruct& sPara
 	{
 		checkIniFile();
 		readGeneralSettings();
+		m_pProps = readIniSect(INI_SECT_DYNPROPS, m_oPool);
 	}
 }
 
@@ -106,7 +108,15 @@ void CSvnFieldLoader::CParameters::writeNewIniFile() const
 		"; This is the configuration file for the Total Commander Content PlugIn " PLUGIN_NAME "." APR_EOL_STR
 		APR_EOL_STR
 		"[" INI_SECT_GENERAL "]" APR_EOL_STR
-		";" INI_KEY_GENERAL_TWEAK_EXT_STATUSES "=yes" APR_EOL_STR;
+		";" INI_KEY_GENERAL_TWEAK_EXT_STATUSES "=yes" APR_EOL_STR
+		APR_EOL_STR
+		"[" INI_SECT_DYNPROPS "]" APR_EOL_STR
+		"svn:eol-style=svnprop-svn-eol-style" APR_EOL_STR
+		"svn:executable=svnprop-svn-executable" APR_EOL_STR
+		"svn:keywords=svnprop-svn-keywords" APR_EOL_STR
+		"svn:mime-type=svnprop-svn-mime-type" APR_EOL_STR
+		"svn:needs-lock=svnprop-svn-needs-lock" APR_EOL_STR
+		"svn:mime-type=svnprop-svn-mime-type" APR_EOL_STR;
 
 	apr_file_t* pFile;
 	apr_size_t nWritten;
@@ -168,6 +178,11 @@ bool CSvnFieldLoader::CParameters::shouldTweakExternalStatus() const
 	return m_bTweakExtStatuses;
 }
 
+apr_hash_t* CSvnFieldLoader::CParameters::getProps()
+{
+	return m_pProps;
+}
+
 void CSvnFieldLoader::CParameters::clearParamCache()
 {
 	char* pchTmpIniPath = strdup(m_pchIniFilePath);
@@ -176,4 +191,5 @@ void CSvnFieldLoader::CParameters::clearParamCache()
 	free(pchTmpIniPath);
 
 	m_bTweakExtStatuses = false;
+	m_pProps = NULL;
 }
