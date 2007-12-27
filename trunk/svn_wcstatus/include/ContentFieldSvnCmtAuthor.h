@@ -28,7 +28,7 @@ class CContentFieldSvnCmtAuthor : public CContentFieldSvn
 public:
 	CContentFieldSvnCmtAuthor(CSvnFieldLoader& oLoader);
 	virtual ~CContentFieldSvnCmtAuthor();
-	
+
 	virtual const char* getName() const;
 	virtual int getType() const;
 
