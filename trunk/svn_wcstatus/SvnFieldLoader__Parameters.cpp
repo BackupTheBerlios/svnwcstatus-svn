@@ -176,5 +176,4 @@ void CSvnFieldLoader::CParameters::clearParamCache()
 	free(pchTmpIniPath);
 
 	m_bTweakExtStatuses = false;
-	m_pProps = NULL;
 }
