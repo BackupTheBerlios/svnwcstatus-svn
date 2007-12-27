@@ -23,7 +23,7 @@
 
 #include "apr_general.h"
 
-static CFieldLoader* g_pLoader;
+static CFieldLoader* g_pLoader = NULL;
 
 static bool dllProcessAttach(HINSTANCE hInstDll)
 {
