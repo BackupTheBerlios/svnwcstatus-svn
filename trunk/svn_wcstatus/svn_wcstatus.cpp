@@ -23,6 +23,7 @@
 
 #include "apr_general.h"
 
+static HINSTANCE g_hInstDll = NULL;
 static CFieldLoader* g_pLoader = NULL;
 
 static bool dllProcessAttach(HINSTANCE hInstDll)
@@ -30,7 +31,9 @@ static bool dllProcessAttach(HINSTANCE hInstDll)
 	if (!hInstDll)
 		return false;
 
-	if (!DisableThreadLibraryCalls(hInstDll))
+	g_hInstDll = hInstDll;
+
+	if (!DisableThreadLibraryCalls(g_hInstDll))
 		return false;
 
 	if (apr_initialize() != APR_SUCCESS)
@@ -41,8 +44,16 @@ static bool dllProcessAttach(HINSTANCE hInstDll)
 
 static bool dllProcessDetach()
 {
-	if (g_pLoader) delete g_pLoader;
+	if (g_pLoader)
+	{
+		delete g_pLoader;
+		g_pLoader = NULL;
+	}
+
 	apr_terminate();
+
+	g_hInstDll = NULL;
+
 	return true;
 }
 
@@ -96,6 +107,11 @@ int __stdcall ContentGetValue(char* pchPath, int iFieldIdx, int iUnitIdx, void* 
 
 void __stdcall ContentSetDefaultParams(ContentDefaultParamStruct* psParams)
 {
-	if (g_pLoader) delete g_pLoader;
-	g_pLoader = new CSvnFieldLoader(*psParams);
+	if (g_pLoader)
+	{
+		delete g_pLoader;
+		g_pLoader = NULL;
+	}
+
+	g_pLoader = new CSvnFieldLoader(*psParams, g_hInstDll);
 }

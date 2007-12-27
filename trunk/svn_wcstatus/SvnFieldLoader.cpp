@@ -60,7 +60,8 @@ static int cleanupFieldArray(void* pData)
 	return APR_SUCCESS;
 }
 
-CSvnFieldLoader::CSvnFieldLoader(const ContentDefaultParamStruct& sParams) :
+CSvnFieldLoader::CSvnFieldLoader(const ContentDefaultParamStruct& sParams, HINSTANCE hInstDll) :
+	m_hInstDll(hInstDll),
 	m_oPool(),
 	m_pFields(NULL),
 	m_pClientCtx(NULL),
@@ -72,6 +73,8 @@ CSvnFieldLoader::CSvnFieldLoader(const ContentDefaultParamStruct& sParams) :
 	emptyContentFields(INITIAL_FIELD_ARRAY_SIZE);
 	appendDefaultContentFields();
 	appendDynamicContentFields();
+
+	initAprIconvDsoPath();
 }
 
 CSvnFieldLoader::~CSvnFieldLoader()
@@ -172,6 +175,72 @@ void CSvnFieldLoader::appendDynamicContentFields()
 
 		apr_hash_this(pIdx, reinterpret_cast<const void**>(&pchPropName), &iSize, reinterpret_cast<void**>(&pchFieldName));
 		appendField(new CContentFieldSvnProp(*this, pchPropName, pchFieldName));
+	}
+}
+
+void CSvnFieldLoader::initAprIconvDsoPath()
+{
+	const char* pchTweak = m_pParams->getTweakAprIconvPath();
+	if (!pchTweak || *pchTweak == '\0' || apr_strnatcasecmp(pchTweak, "no") == 0)
+	{
+		return;
+	}
+
+	char achTempPath[_MAX_PATH + 1];
+
+	if (apr_strnatcasecmp(pchTweak, "yes")  == 0)
+	{
+		const char* pchPath = m_pParams->getAprIconvPath();
+		if (!pchPath || *pchPath == '\0') return;
+		apr_cpystrn(achTempPath, pchPath, sizeof (achTempPath));
+	}
+	else if (apr_strnatcasecmp(pchTweak, "plugin_dir") == 0)
+	{
+		HMODULE hModule = GetModuleHandle(MODULE_NAME);
+		
+		if (!hModule)
+			return;
+
+		DWORD dwRes = GetModuleFileName(hModule, achTempPath, sizeof (achTempPath));
+
+		if (dwRes < 1)
+		{
+			// we cannot do anything about that error...
+			return;
+		}
+
+		// replace module file name with default path to apr-iconv DSOs
+		size_t nPos = dwRes - 1;
+		while (nPos)
+		{
+			if (achTempPath[nPos] == '\\')
+			{
+				strncpy(achTempPath + nPos + 1, "iconv", sizeof (achTempPath) - nPos - 1);
+				break;
+			}
+			--nPos;
+		}
+
+		if (nPos == 0)
+		{
+			// no or leading backslash in module path!?!
+			return;
+		}
+
+		achTempPath[sizeof (achTempPath) - 1] = '\0';
+	}
+	else
+	{
+		// no known option found, simply return...
+		return;
+	}
+
+	// check for directory existence
+	DWORD dwRes = GetFileAttributes(achTempPath);
+	if (dwRes != MAXDWORD && (dwRes & FILE_ATTRIBUTE_DIRECTORY))
+	{
+		// ignore errors here...
+		SetEnvironmentVariable("APR_ICONV_PATH", achTempPath);
 	}
 }
 

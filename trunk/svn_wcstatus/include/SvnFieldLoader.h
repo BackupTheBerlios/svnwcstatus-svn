@@ -40,7 +40,7 @@ public:
 	class CParameters;
 	class CEntryCache; friend class CEntryCache;
 
-	CSvnFieldLoader(const ContentDefaultParamStruct& sParams);
+	CSvnFieldLoader(const ContentDefaultParamStruct& sParams, HINSTANCE hInstDll);
 	virtual ~CSvnFieldLoader();
 
 	virtual CContentField& getFieldByIndex(int iIdx);
@@ -52,6 +52,7 @@ public:
 	void aprTimeToFileTime(apr_time_t nTime, FILETIME& ftTime) const;
 
 private:
+	HINSTANCE m_hInstDll;
 	CSvnPool m_oPool;
 	apr_array_header_t* m_pFields;
 	svn_client_ctx_t* m_pClientCtx;
@@ -69,6 +70,8 @@ private:
 	void appendDynamicContentFields();
 
 	void clearContentFields();
+
+	void initAprIconvDsoPath();
 
 	// static svn_wc_status2_t* dupEntry(svn_wc_status2_t* pEntry, apr_pool_t* pPool);
 };

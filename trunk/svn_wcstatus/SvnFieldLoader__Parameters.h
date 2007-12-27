@@ -32,6 +32,8 @@ public:
 	virtual ~CParameters();
 
 	bool shouldTweakExternalStatus() const;
+	const char* getTweakAprIconvPath() const;
+	const char* getAprIconvPath() const;
 
 	apr_hash_t* getProps();
 
@@ -41,6 +43,8 @@ private:
 	CSvnPool m_oPool;
 	const char* m_pchIniFilePath;
 	bool m_bTweakExtStatuses;
+	const char* m_pchTweakIconvPath;
+	const char* m_pchIconvPath;
 	apr_hash_t* m_pProps;
 
 	void determineIniFilePath(const char* pchIniFilePathTc);

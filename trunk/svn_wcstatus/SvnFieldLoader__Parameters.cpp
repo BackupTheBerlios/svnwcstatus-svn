@@ -36,6 +36,8 @@ CSvnFieldLoader::CParameters::CParameters(const ContentDefaultParamStruct& sPara
 	m_oPool(),
 	m_pchIniFilePath(NULL),
 	m_bTweakExtStatuses(false),
+	m_pchTweakIconvPath(NULL),
+	m_pchIconvPath(NULL),
 	m_pProps(NULL)
 {
 	determineIniFilePath(sParams.DefaultIniName);
@@ -109,6 +111,12 @@ void CSvnFieldLoader::CParameters::writeNewIniFile() const
 		APR_EOL_STR
 		"[" INI_SECT_GENERAL "]" APR_EOL_STR
 		";" INI_KEY_GENERAL_TWEAK_EXT_STATUSES "=yes" APR_EOL_STR
+		"; Values for the following are:" APR_EOL_STR
+		";     'no' (don't touch)," APR_EOL_STR
+		";     'yes' (as in key 'apr_iconv_path')," APR_EOL_STR
+		";     'plugin_dir' (look in the plugin directory)" APR_EOL_STR
+		INI_KEY_GENERAL_TWEAK_API_PATH "=plugin_dir" APR_EOL_STR
+		";" INI_KEY_GENERAL_API_PATH "=place_apr_iconv_path_here" APR_EOL_STR
 		APR_EOL_STR
 		"[" INI_SECT_DYNPROPS "]" APR_EOL_STR
 		"svn:eol-style=svnprop-svn-eol-style" APR_EOL_STR
@@ -171,11 +179,27 @@ void CSvnFieldLoader::CParameters::readGeneralSettings()
 	const char* pchVal = static_cast<const char*>(
 		apr_hash_get(pGeneral, INI_KEY_GENERAL_TWEAK_EXT_STATUSES, APR_HASH_KEY_STRING));
 	m_bTweakExtStatuses = pchVal && apr_strnatcasecmp(pchVal, "yes") == 0 ? true : false;
+
+	pchVal = static_cast<const char*>(
+		apr_hash_get(pGeneral, INI_KEY_GENERAL_TWEAK_API_PATH, APR_HASH_KEY_STRING));
+
+	if (pchVal)
+		m_pchTweakIconvPath = apr_pstrdup(m_oPool, pchVal);
 }
 
 bool CSvnFieldLoader::CParameters::shouldTweakExternalStatus() const
 {
 	return m_bTweakExtStatuses;
+}
+
+const char* CSvnFieldLoader::CParameters::getTweakAprIconvPath() const
+{
+	return m_pchTweakIconvPath;
+}
+
+const char* CSvnFieldLoader::CParameters::getAprIconvPath() const
+{
+	return NULL;
 }
 
 apr_hash_t* CSvnFieldLoader::CParameters::getProps()
@@ -191,5 +215,7 @@ void CSvnFieldLoader::CParameters::clearParamCache()
 	free(pchTmpIniPath);
 
 	m_bTweakExtStatuses = false;
+	m_pchTweakIconvPath = NULL;
+	m_pchIconvPath = NULL;
 	m_pProps = NULL;
 }
