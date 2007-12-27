@@ -48,6 +48,6 @@ int CContentInstanceBoolean::copyValueTo(void** ppBuf, int iMaxBuf) const
 		return ft_fieldempty;
 	}
 
-	*(int*)*ppBuf = m_nValue ? 1 : 0;
+	*static_cast<int*>(*ppBuf) = m_nValue ? 1 : 0;
 	return getType().getType();
 }

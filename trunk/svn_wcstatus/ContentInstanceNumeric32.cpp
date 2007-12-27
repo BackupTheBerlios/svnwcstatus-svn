@@ -36,6 +36,6 @@ int CContentInstanceNumeric32::copyValueTo(void** ppBuf, int iMaxBuf) const
 		return ft_fieldempty;
 	}
 
-	*(int*)*ppBuf = m_nValue;
+	*static_cast<int*>(*ppBuf) = m_nValue;
 	return getType().getType();
 }

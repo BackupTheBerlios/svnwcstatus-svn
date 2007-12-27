@@ -59,8 +59,10 @@ int CContentInstanceString::copyValueTo(void** ppBuf, int iMaxBuf) const
 
 	if (iMaxBuf > 0 && ppBuf && *ppBuf)
 	{
-		strncpy((char*)*ppBuf, m_achValue, iMaxBuf);
-		((char*)*ppBuf)[iMaxBuf - 1] = '\0';
+		char* pchBuf = static_cast<char*>(*ppBuf);
+
+		strncpy(pchBuf, m_achValue, iMaxBuf);
+		pchBuf[iMaxBuf - 1] = '\0';
 	}
 
 	return getType().getType();

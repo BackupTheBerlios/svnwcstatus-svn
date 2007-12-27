@@ -36,6 +36,6 @@ int CContentInstanceDateTime::copyValueTo(void** ppBuf, int iMaxBuf) const
 		return ft_fieldempty;
 	}
 
-	*(FILETIME*)*ppBuf = m_ftValue;
+	*static_cast<FILETIME*>(*ppBuf) = m_ftValue;
 	return getType().getType();
 }

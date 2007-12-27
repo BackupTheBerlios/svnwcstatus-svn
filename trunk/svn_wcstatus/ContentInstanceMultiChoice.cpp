@@ -45,8 +45,10 @@ int CContentInstanceMultiChoice::copyValueTo(void** ppBuf, int iMaxBuf) const
 		return ft_fileerror;
 	}
 
-	strncpy((char*)*ppBuf, m_oDef.getChoiceName(m_iChoiceItem), iMaxBuf);
-	((char*)*ppBuf)[iMaxBuf - 1] = '\0';
+	char* pchBuf = static_cast<char*>(*ppBuf);
+
+	strncpy(pchBuf, m_oDef.getChoiceName(m_iChoiceItem), iMaxBuf);
+	pchBuf[iMaxBuf - 1] = '\0';
 
 	return getType().getType();
 }
