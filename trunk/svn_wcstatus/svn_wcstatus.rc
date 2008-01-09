@@ -46,7 +46,7 @@ BEGIN
             VALUE "Comments", "Content PlugIn for Total Commander. Shows the status of a Subversion working copy. This product includes software developed by CollabNet (http://www.collab.net/). See http://svnwcstatus.berlios.de for further information.\0"
             VALUE "CompanyName", "Tom Wieczorek <wieczorek@gmx.net>\0"
             VALUE "FileDescription", "svn_wcstatus\0"
-            VALUE "FileVersion", "0.1.0-dev\0"
+            VALUE "FileVersion", "0.1.1-dev\0"
             VALUE "InternalName", "svn_wcstatus\0"
             VALUE "LegalCopyright", "Copyright © 2007, 2008 Tom Wieczorek; released under the GNU General Public License, Version 3\0"
             VALUE "LegalTrademarks", "\0"
