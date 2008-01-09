@@ -80,7 +80,7 @@ http://developer.berlios.de/projects/svnwcstatus/.
 
 History
 =======
-2008-01-09 svn_wcstatus version 0.1
+2008-01-09 svn_wcstatus version 0.1.0
  - based on Subversion 1.4.6, neon 0.26.4, zlib 1.2.3,
    apr 0.9.17, apr-util 0.9.15, apr-iconv 0.9.7
  - initial version
