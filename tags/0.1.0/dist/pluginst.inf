@@ -1,0 +1,5 @@
+[plugininstall]
+description=Subversion working copy status plugin
+type=wdx
+file=svn_wcstatus.wdx
+defaultdir=svn_wcstatus
